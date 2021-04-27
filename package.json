@@ -18,6 +18,8 @@
   },
   "homepage": "https://github.com/brendapc/React-TDD-Clean-Architecture-SOLID-e-Patterns#readme",
   "devDependencies": {
-    "git-commit-msg-linter": "^3.1.0"
+    "@types/node": "^15.0.0",
+    "git-commit-msg-linter": "^3.1.0",
+    "typescript": "^4.2.4"
   }
 }
