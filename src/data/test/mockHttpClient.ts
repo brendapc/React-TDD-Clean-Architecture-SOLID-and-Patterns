@@ -1,9 +1,9 @@
-import { IHttpPostClient } from 'data/protocols/http/httpPostClient'
+import { IHttpPostClient, IHttpPostParams } from 'data/protocols/http/httpPostClient'
 
 export class HttpPostClientMock implements IHttpPostClient {
   url?: string
-  async post (url: string): Promise<void> {
-    this.url = url
+  async post (params: IHttpPostParams): Promise<void> {
+    this.url = params.url
     return Promise.resolve()
   }
 }
