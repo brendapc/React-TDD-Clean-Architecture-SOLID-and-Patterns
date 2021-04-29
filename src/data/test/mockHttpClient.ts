@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import { IHttpPostClient, IHttpPostParams } from 'data/protocols/http/httpPostClient'
+import { IHttpPostClient, IHttpPostParams } from '@/data/protocols/http/httpPostClient'
 
 export class HttpPostClientMock implements IHttpPostClient {
   url?: string

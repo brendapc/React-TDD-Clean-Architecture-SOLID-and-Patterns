@@ -1,6 +1,5 @@
-import { IHttpPostClient } from 'data/protocols/http/httpPostClient'
-import { AuthenticationParams, IAuthentication } from 'domain/useCases/authentication'
-import { IAccountModel } from './../../../domain/models/accountModel'
+import { IHttpPostClient } from '@/data/protocols/http/httpPostClient'
+import { AuthenticationParams } from '@/domain/useCases/authentication'
 
 export class RemoteAuthentication {
   constructor (
