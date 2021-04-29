@@ -17,7 +17,10 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "noEmit": true
+    "noEmit": true,
   },
-  "include": ["src"]
+  "include": ["src"],
+  "rules": {
+    "no-unused-vars": "off",
+  },
 }
