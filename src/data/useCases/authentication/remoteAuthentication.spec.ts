@@ -4,6 +4,7 @@ import { mockAuthentication } from '@/domain/test/mockAuthentication'
 import faker from 'faker'
 import { HttpStatusCode } from '@/data/protocols/http/httpResponse'
 import { InvalidCredentialsError } from '@/domain/errors/invalidCredentialsError/InvalidCredentialsError'
+import { UnexpectedError } from './../../../domain/errors/unexpectedError/InvalidCredentialsError'
 
 type SutTypes = {
   sut: RemoteAuthentication
@@ -32,6 +33,14 @@ describe('RemoteAuthentication', () => {
     await sut.auth(authenticationParams)
     expect(httpPostClientMock.body).toEqual(authenticationParams)
   })
+  test('should throw UnexpectedError if HttpClient returns 400', async () => {
+    const { sut, httpPostClientMock } = mountSystemUnderTest()
+    httpPostClientMock.httpResponse = {
+      statusCode: HttpStatusCode.badRequest
+    }
+    const promise = sut.auth(mockAuthentication())
+    await expect(promise).rejects.toThrow(new UnexpectedError())
+  })
   test('should throw InvalidCredentialsError if HttpClient returns 401', async () => {
     const { sut, httpPostClientMock } = mountSystemUnderTest()
     httpPostClientMock.httpResponse = {
@@ -39,5 +48,21 @@ describe('RemoteAuthentication', () => {
     }
     const promise = sut.auth(mockAuthentication())
     await expect(promise).rejects.toThrow(new InvalidCredentialsError())
+  })
+  test('should throw UnexpectedError if HttpClient returns 404', async () => {
+    const { sut, httpPostClientMock } = mountSystemUnderTest()
+    httpPostClientMock.httpResponse = {
+      statusCode: HttpStatusCode.notFound
+    }
+    const promise = sut.auth(mockAuthentication())
+    await expect(promise).rejects.toThrow(new UnexpectedError())
+  })
+  test('should throw UnexpectedError if HttpClient returns 500', async () => {
+    const { sut, httpPostClientMock } = mountSystemUnderTest()
+    httpPostClientMock.httpResponse = {
+      statusCode: HttpStatusCode.serverError
+    }
+    const promise = sut.auth(mockAuthentication())
+    await expect(promise).rejects.toThrow(new UnexpectedError())
   })
 })

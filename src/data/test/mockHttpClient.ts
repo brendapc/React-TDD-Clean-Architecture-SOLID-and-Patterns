@@ -6,7 +6,7 @@ export class HttpPostClientMock implements IHttpPostClient {
   url?: string
   body?: object
   httpResponse: IHttpResponse = {
-    statusCode: HttpStatusCode.noContent
+    statusCode: HttpStatusCode.okRequest
   }
 
   async post (params: IHttpPostParams): Promise<IHttpResponse> {
