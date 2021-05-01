@@ -5,14 +5,16 @@ import faker from 'faker'
 import { HttpStatusCode } from '@/data/protocols/http/httpResponse'
 import { InvalidCredentialsError } from '@/domain/errors/invalidCredentialsError/InvalidCredentialsError'
 import { UnexpectedError } from './../../../domain/errors/unexpectedError/InvalidCredentialsError'
+import { AuthenticationParams } from '@/domain/useCases/authentication'
+import { IAccountModel } from './../../../domain/models/accountModel'
 
 type SutTypes = {
   sut: RemoteAuthentication
-  httpPostClientMock: HttpPostClientMock
+  httpPostClientMock: HttpPostClientMock<AuthenticationParams, IAccountModel>
 }
 
 const mountSystemUnderTest = (url: string = faker.internet.url()): SutTypes => {
-  const httpPostClientMock = new HttpPostClientMock()
+  const httpPostClientMock = new HttpPostClientMock<AuthenticationParams, IAccountModel>()
   const sut = new RemoteAuthentication(url, httpPostClientMock)
   return {
     sut,
