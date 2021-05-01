@@ -1,4 +1,4 @@
-import { IHttpResponse } from './httpResponse'
+import { IHttpResponse } from '.'
 
 /* eslint-disable @typescript-eslint/ban-types */
 export type IHttpPostParams<T> ={
