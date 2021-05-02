@@ -5,15 +5,16 @@
     }
   },
   "extends": [
-  "standard-with-typescript",
-  "eslint:recommended",
-  "plugin:@typescript-eslint/eslint-recommended",
-  "plugin:@typescript-eslint/recommended",
-  "plugin:react/recommended"
-],
-"plugins": ["react"],
+    "standard-with-typescript",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended"
+  ],
+  "ignorePatterns": ["webpack.config.js"],
+  "plugins": ["react"],
   "parserOptions": {
-    "project":[ "./tsconfig.json"]
+    "project": ["./tsconfig.json"]
   },
   "parser": "@typescript-eslint/parser",
   "rules": {
