@@ -1,9 +1,9 @@
 import LoginHeader from '@/presentation/components/layout/loginHeader/LoginHeader'
 import Footer from '@/presentation/components/layout/footer/Footer'
-import { Spinner } from '@/presentation/components/layout/spinner/Spinner'
 import React from 'react'
 import Styles from './login-styles.scss'
 import { Input } from '@/presentation/components/utils/input/Input'
+import { FormStatus } from '@/presentation/components/utils/formStatus/FormStatus'
 
 export const Login: React.FC = () => {
   return (
@@ -15,10 +15,7 @@ export const Login: React.FC = () => {
         <Input type="password" name="password" placeholder="Digite sua senha" />
         <button className={Styles.submit} type="submit">Entrar</button>
         <span className={Styles.link}>Criar conta</span>
-        <div className={Styles.errorWrapper}>
-          <Spinner className={Styles.spinner} />
-          <span className={Styles.error}> error</span>
-        </div>
+        <FormStatus />
       </form>
       <Footer />
     </div>
