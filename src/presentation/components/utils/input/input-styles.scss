@@ -1,0 +1,15 @@
+.inputWrapper {
+    margin-top: 16px;
+    display: flex;
+    position: relative; //pai
+    align-items: center;
+
+    input{
+        flex-grow: 1;
+    }
+    .status {
+        position: absolute; //em relação ao pai
+        right: 8px;
+        cursor: help; //para usabilidade, diz que tem uma tooltip
+    }
+}
