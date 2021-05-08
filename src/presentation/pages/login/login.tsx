@@ -1,6 +1,6 @@
-import LoginHeader from '@/presentation/components/loginHeader/loginHeader'
-import Footer from '@/presentation/components/footer/footer'
-import { Spinner } from '@/presentation/components/spinner/spinner'
+import LoginHeader from '@/presentation/components/layout/loginHeader/LoginHeader'
+import Footer from '@/presentation/components/layout/footer/Footer'
+import { Spinner } from '@/presentation/components/layout/spinner/Spinner'
 import React from 'react'
 import Styles from './login-styles.scss'
 
