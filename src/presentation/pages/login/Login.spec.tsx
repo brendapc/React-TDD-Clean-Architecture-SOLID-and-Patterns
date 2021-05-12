@@ -5,7 +5,7 @@ import { IValidation } from '../../protocols/validation'
 
 type SutTypes = {
   sut: RenderResult
-  mockValidation: IValidation
+  mockValidation: MockValidation
 }
 
 class MockValidation implements IValidation {
