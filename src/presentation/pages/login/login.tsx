@@ -3,7 +3,7 @@ import { Footer, LoginHeader } from '@/presentation/components/layout'
 import { Input, FormStatus } from '@/presentation/components/utils'
 import Styles from './login-styles.scss'
 import Context from '../../contexts/form/FormContext'
-import { IValidation } from '../protocols/validation'
+import { IValidation } from '../../protocols/validation'
 
 type Props = {
   validation: IValidation
