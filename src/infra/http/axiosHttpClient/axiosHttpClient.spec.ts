@@ -11,7 +11,7 @@ interface SutTypes {
   sut: AxiosHttpClient
   mockedAxios: jest.Mocked<typeof axios>
 }
-const mountSystemUnderTest = (): SutTypes => {
+const makeSystemUnderTest = (): SutTypes => {
   const sut = new AxiosHttpClient()
   const mockedAxios = mockAxios()
   return {
@@ -23,13 +23,13 @@ const mountSystemUnderTest = (): SutTypes => {
 describe('AxiosHttpClient', () => {
   test('should call axios with correct values', async () => {
     const httpRequest = mockPostRequest()
-    const { sut, mockedAxios } = mountSystemUnderTest()
+    const { sut, mockedAxios } = makeSystemUnderTest()
     await sut.post(httpRequest)
     expect(mockedAxios.post).toHaveBeenCalledWith(httpRequest.url, httpRequest.body)
   })
   test('should return the correct statusCode and body', () => {
     const httpRequest = mockPostRequest()
-    const { sut, mockedAxios } = mountSystemUnderTest()
+    const { sut, mockedAxios } = makeSystemUnderTest()
     const promise = sut.post(httpRequest)
     // comparing with mockedAxiosResponse from mockedAxios, that is a promise
     expect(promise).toEqual(mockedAxios.post.mock.results[0].value)

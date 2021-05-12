@@ -12,7 +12,7 @@ type SutTypes = {
   httpPostClientMock: HttpPostClientMock<AuthenticationParams, IAccountModel>
 }
 
-const mountSystemUnderTest = (url: string = faker.internet.url()): SutTypes => {
+const makeSystemUnderTest = (url: string = faker.internet.url()): SutTypes => {
   const httpPostClientMock = new HttpPostClientMock<AuthenticationParams, IAccountModel>()
   const sut = new RemoteAuthentication(url, httpPostClientMock)
   return {
@@ -24,18 +24,18 @@ const mountSystemUnderTest = (url: string = faker.internet.url()): SutTypes => {
 describe('RemoteAuthentication', () => {
   test('should HttpClient with correct url', async () => {
     const url = faker.internet.url()
-    const { sut, httpPostClientMock } = mountSystemUnderTest(url)
+    const { sut, httpPostClientMock } = makeSystemUnderTest(url)
     await sut.auth(mockAuthentication())
     expect(httpPostClientMock.url).toBe(url)
   })
   test('should HttpClient with correct body', async () => {
-    const { sut, httpPostClientMock } = mountSystemUnderTest()
+    const { sut, httpPostClientMock } = makeSystemUnderTest()
     const authenticationParams = mockAuthentication()
     await sut.auth(authenticationParams)
     expect(httpPostClientMock.body).toEqual(authenticationParams)
   })
   test('should throw UnexpectedError if HttpClient returns 400', async () => {
-    const { sut, httpPostClientMock } = mountSystemUnderTest()
+    const { sut, httpPostClientMock } = makeSystemUnderTest()
     httpPostClientMock.httpResponse = {
       statusCode: HttpStatusCode.badRequest
     }
@@ -43,7 +43,7 @@ describe('RemoteAuthentication', () => {
     await expect(promise).rejects.toThrow(new UnexpectedError())
   })
   test('should throw InvalidCredentialsError if HttpClient returns 401', async () => {
-    const { sut, httpPostClientMock } = mountSystemUnderTest()
+    const { sut, httpPostClientMock } = makeSystemUnderTest()
     httpPostClientMock.httpResponse = {
       statusCode: HttpStatusCode.unauthorized
     }
@@ -51,7 +51,7 @@ describe('RemoteAuthentication', () => {
     await expect(promise).rejects.toThrow(new InvalidCredentialsError())
   })
   test('should throw UnexpectedError if HttpClient returns 404', async () => {
-    const { sut, httpPostClientMock } = mountSystemUnderTest()
+    const { sut, httpPostClientMock } = makeSystemUnderTest()
     httpPostClientMock.httpResponse = {
       statusCode: HttpStatusCode.notFound
     }
@@ -59,7 +59,7 @@ describe('RemoteAuthentication', () => {
     await expect(promise).rejects.toThrow(new UnexpectedError())
   })
   test('should throw UnexpectedError if HttpClient returns 500', async () => {
-    const { sut, httpPostClientMock } = mountSystemUnderTest()
+    const { sut, httpPostClientMock } = makeSystemUnderTest()
     httpPostClientMock.httpResponse = {
       statusCode: HttpStatusCode.serverError
     }
@@ -67,7 +67,7 @@ describe('RemoteAuthentication', () => {
     await expect(promise).rejects.toThrow(new UnexpectedError())
   })
   test('should return an AccountModel if an HttpPostClient returns 200', async () => {
-    const { sut, httpPostClientMock } = mountSystemUnderTest()
+    const { sut, httpPostClientMock } = makeSystemUnderTest()
     const httpResponseBody = mockAccountModel()
     httpPostClientMock.httpResponse = {
       statusCode: HttpStatusCode.okRequest,
