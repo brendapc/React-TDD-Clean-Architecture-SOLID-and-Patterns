@@ -44,12 +44,20 @@ describe('Login compoenent', () => {
     expect(passwordStatus.textContent).toBe('❗')
   })
 
-  test('should call Validation with correct value', () => {
+  test('should call Validation with correct email value', () => {
     const { sut, mockValidation } = makeSystemUnderTest()
     const emailInput = sut.getByTestId('email')
     fireEvent.input(emailInput, { target: { value: 'anyEmail' } })
     expect(mockValidation.input).toEqual({
       email: 'anyEmail'
+    })
+  })
+  test('should call validation with correct password value', () => {
+    const { sut, mockValidation } = makeSystemUnderTest()
+    const passwordInput = sut.getByTestId('password')
+    fireEvent.input(passwordInput, { target: { value: 'anyPassword' } })
+    expect(mockValidation.input).toEqual({
+      password: 'anyPassword'
     })
   })
 })
