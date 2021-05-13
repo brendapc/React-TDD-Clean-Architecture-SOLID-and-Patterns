@@ -10,10 +10,12 @@ type SutTypes = {
 
 class MockValidation implements IValidation {
   errorMessage: string
-  input: object
+  fieldName: string
+  fieldValue: string
 
-  validate (input: object): string {
-    this.input = input
+  validate (fieldName: string, fieldValue: string): string {
+    this.fieldName = fieldName
+    this.fieldValue = fieldValue
     return this.errorMessage
   }
 }
@@ -48,16 +50,14 @@ describe('Login compoenent', () => {
     const { sut, mockValidation } = makeSystemUnderTest()
     const emailInput = sut.getByTestId('email')
     fireEvent.input(emailInput, { target: { value: 'anyEmail' } })
-    expect(mockValidation.input).toEqual({
-      email: 'anyEmail'
-    })
+    expect(mockValidation.fieldName).toBe('email')
+    expect(mockValidation.fieldValue).toBe('anyEmail')
   })
   test('should call validation with correct password value', () => {
     const { sut, mockValidation } = makeSystemUnderTest()
     const passwordInput = sut.getByTestId('password')
     fireEvent.input(passwordInput, { target: { value: 'anyPassword' } })
-    expect(mockValidation.input).toEqual({
-      password: 'anyPassword'
-    })
+    expect(mockValidation.fieldName).toBe('password')
+    expect(mockValidation.fieldValue).toBe('anyPassword')
   })
 })
