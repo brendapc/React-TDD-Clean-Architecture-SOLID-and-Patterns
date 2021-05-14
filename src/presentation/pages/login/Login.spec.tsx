@@ -48,7 +48,7 @@ const populatePasswordField = (sut: RenderResult, password = faker.internet.pass
   fireEvent.input(passwordInput, { target: { value: password } })
 }
 
-const simulateValidationStatus = (sut: RenderResult, fieldName: string, validationError?: string): void => {
+const testStatusForField = (sut: RenderResult, fieldName: string, validationError?: string): void => {
   const fieldStatus = sut.getByTestId(`${fieldName}-status`)
   expect(fieldStatus.title).toBe(validationError || 'Everything ok')
   expect(fieldStatus.textContent).toBe(validationError ? '❗' : '✔️')
@@ -67,34 +67,34 @@ describe('Login compoenent', () => {
     expect(errorWrap.childElementCount).toBe(0)
     const submitButton = sut.getByTestId('submit-button') as HTMLButtonElement
     expect(submitButton.disabled).toBe(true)
-    simulateValidationStatus(sut, 'email', validationError)
-    simulateValidationStatus(sut, 'password', validationError)
+    testStatusForField(sut, 'email', validationError)
+    testStatusForField(sut, 'password', validationError)
   })
 
   test('should show email error if validation fails', () => {
     const validationError = faker.random.words()
     const { sut } = makeSystemUnderTest({ validationError })
     populateEmailField(sut)
-    simulateValidationStatus(sut, 'email', validationError)
+    testStatusForField(sut, 'email', validationError)
   })
 
   test('should show password error if Validation fails', () => {
     const validationError = faker.random.words()
     const { sut } = makeSystemUnderTest({ validationError })
     populatePasswordField(sut)
-    simulateValidationStatus(sut, 'password', validationError)
+    testStatusForField(sut, 'password', validationError)
   })
 
   test('should show valid status if email validation succeeds', () => {
     const { sut } = makeSystemUnderTest()
     populateEmailField(sut)
-    simulateValidationStatus(sut, 'email')
+    testStatusForField(sut, 'email')
   })
 
   test('should show valid status if password validation succeeds', () => {
     const { sut } = makeSystemUnderTest()
     populatePasswordField(sut)
-    simulateValidationStatus(sut, 'password')
+    testStatusForField(sut, 'password')
   })
 
   test('should enable submit button if form values are valid', () => {
