@@ -111,4 +111,11 @@ describe('Login compoenent', () => {
       password: fakePassword
     })
   })
+
+  test('should not allow authentication to be called multiple times', () => {
+    const { sut, authenticationSpy } = makeSystemUnderTest()
+    simulateValidSubmit(sut)
+    simulateValidSubmit(sut)
+    expect(authenticationSpy.callsCount).toBe(1)
+  })
 })
