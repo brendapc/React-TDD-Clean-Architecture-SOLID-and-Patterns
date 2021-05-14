@@ -3,21 +3,36 @@ import { render, RenderResult, cleanup, fireEvent } from '@testing-library/react
 import { Login } from './Login'
 import { ValidationStub } from '@/presentation/test'
 import faker from 'faker'
+import { AuthenticationParams, IAuthentication } from '@/domain/useCases'
+import { IAccountModel } from '@/domain/models'
+import { mockAccountModel } from '@/domain/test'
 
 type SutTypes = {
   sut: RenderResult
-  validationStub: ValidationStub
+  authenticationSpy: AuthenticationSpy
 }
 type SutParams = {
   validationError: string
 }
+
+class AuthenticationSpy implements IAuthentication {
+  fakeAccount = mockAccountModel()
+  params: AuthenticationParams
+
+  async auth (params: AuthenticationParams): Promise<IAccountModel> {
+    this.params = params
+    return Promise.resolve(this.fakeAccount)
+  }
+}
+
 const makeSystemUnderTest = (params?: SutParams): SutTypes => {
   const validationStub = new ValidationStub()
   validationStub.errorMessage = params?.validationError
-  const sut = render(<Login validation={validationStub} />)
+  const authenticationSpy = new AuthenticationSpy()
+  const sut = render(<Login validation={validationStub} authentication={authenticationSpy} />)
   return {
     sut,
-    validationStub
+    authenticationSpy
   }
 }
 
@@ -105,5 +120,21 @@ describe('Login compoenent', () => {
     fireEvent.click(submitButton)
     const spinner = sut.getByTestId('spinner')
     expect(spinner).toBeTruthy()
+  })
+
+  test('should call Authentication with correct values', () => {
+    const { sut, authenticationSpy } = makeSystemUnderTest()
+    const emailInput = sut.getByTestId('email')
+    const fakeEmail = faker.internet.email()
+    fireEvent.input(emailInput, { target: { value: fakeEmail } })
+    const passwordInput = sut.getByTestId('password')
+    const fakePassword = faker.internet.password()
+    fireEvent.input(passwordInput, { target: { value: fakePassword } })
+    const submitButton = sut.getByTestId('submit-button')
+    fireEvent.click(submitButton)
+    expect(authenticationSpy.params).toEqual({
+      email: fakeEmail,
+      password: fakePassword
+    })
   })
 })
