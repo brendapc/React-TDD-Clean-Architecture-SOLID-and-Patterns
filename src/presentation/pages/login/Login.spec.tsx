@@ -2,6 +2,7 @@ import React from 'react'
 import { render, RenderResult, cleanup, fireEvent } from '@testing-library/react'
 import { Login } from './Login'
 import { MockValidation } from '@/presentation/test'
+import faker from 'faker'
 
 type SutTypes = {
   sut: RenderResult
@@ -37,15 +38,17 @@ describe('Login compoenent', () => {
   test('should call Validation with correct email value', () => {
     const { sut, mockValidation } = makeSystemUnderTest()
     const emailInput = sut.getByTestId('email')
-    fireEvent.input(emailInput, { target: { value: 'anyEmail' } })
+    const fakeEmail = faker.internet.email()
+    fireEvent.input(emailInput, { target: { value: fakeEmail } })
     expect(mockValidation.fieldName).toBe('email')
-    expect(mockValidation.fieldValue).toBe('anyEmail')
+    expect(mockValidation.fieldValue).toBe(fakeEmail)
   })
   test('should call validation with correct password value', () => {
     const { sut, mockValidation } = makeSystemUnderTest()
     const passwordInput = sut.getByTestId('password')
-    fireEvent.input(passwordInput, { target: { value: 'anyPassword' } })
+    const fakePassword = faker.internet.password()
+    fireEvent.input(passwordInput, { target: { value: fakePassword } })
     expect(mockValidation.fieldName).toBe('password')
-    expect(mockValidation.fieldValue).toBe('anyPassword')
+    expect(mockValidation.fieldValue).toBe(fakePassword)
   })
 })
