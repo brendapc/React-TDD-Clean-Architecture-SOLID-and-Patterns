@@ -2,7 +2,7 @@ import React from 'react'
 import { render, RenderResult, cleanup, fireEvent } from '@testing-library/react'
 import { Login } from './Login'
 import { MockValidation } from '@/presentation/test'
-import faker from 'faker'
+import faker, { fake } from 'faker'
 
 type SutTypes = {
   sut: RenderResult
@@ -11,6 +11,8 @@ type SutTypes = {
 
 const makeSystemUnderTest = (): SutTypes => {
   const mockValidation = new MockValidation()
+  const fakeErrorMessage = faker.random.words()
+  mockValidation.errorMessage = fakeErrorMessage
   const sut = render(<Login validation={mockValidation} />)
   return {
     sut,
@@ -22,13 +24,13 @@ describe('Login compoenent', () => {
   afterEach(cleanup)
 
   test('should mount components with inital state', () => {
-    const { sut } = makeSystemUnderTest()
+    const { sut, mockValidation } = makeSystemUnderTest()
     const errorWrap = sut.getByTestId('error-wrap')
     expect(errorWrap.childElementCount).toBe(0)
     const submitButton = sut.getByTestId('submit-button') as HTMLButtonElement
     expect(submitButton.disabled).toBe(true)
     const emailStatus = sut.getByTestId('email-status')
-    expect(emailStatus.title).toBe('Campo Obrigatório')
+    expect(emailStatus.title).toBe(mockValidation.errorMessage)
     expect(emailStatus.textContent).toBe('❗')
     const passwordStatus = sut.getByTestId('password-status')
     expect(passwordStatus.title).toBe('Campo Obrigatório')
@@ -50,5 +52,14 @@ describe('Login compoenent', () => {
     fireEvent.input(passwordInput, { target: { value: fakePassword } })
     expect(mockValidation.fieldName).toBe('password')
     expect(mockValidation.fieldValue).toBe(fakePassword)
+  })
+  test('should show email error if validation fails', () => {
+    const { sut, mockValidation } = makeSystemUnderTest()
+    const emailInput = sut.getByTestId('email')
+    const fakeEmail = faker.internet.email()
+    fireEvent.input(emailInput, { target: { value: fakeEmail } })
+    const emailStatus = sut.getByTestId('email-status')
+    expect(emailStatus.title).toBe(mockValidation.errorMessage)
+    expect(emailStatus.textContent).toBe('❗')
   })
 })
