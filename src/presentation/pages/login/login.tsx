@@ -34,7 +34,8 @@ export const Login: React.FC<Props> = ({ validation, authentication }: Props) =>
       event.preventDefault()
       if (formState.isLoading || formState.emailError || formState.passwordError) return
       setFormState({ ...formState, isLoading: true })
-      await authentication.auth({ email: formState.email, password: formState.password })
+      const account = await authentication.auth({ email: formState.email, password: formState.password })
+      localStorage.setItem('accessToken', account.accessToken)
     } catch (err) {
       setFormState({
         ...formState,
