@@ -1,23 +1,11 @@
 import React from 'react'
 import { render, RenderResult, cleanup, fireEvent } from '@testing-library/react'
 import { Login } from './Login'
-import { IValidation } from '../../protocols/validation'
+import { MockValidation } from '@/presentation/test'
 
 type SutTypes = {
   sut: RenderResult
   mockValidation: MockValidation
-}
-
-class MockValidation implements IValidation {
-  errorMessage: string
-  fieldName: string
-  fieldValue: string
-
-  validate (fieldName: string, fieldValue: string): string {
-    this.fieldName = fieldName
-    this.fieldValue = fieldValue
-    return this.errorMessage
-  }
 }
 
 const makeSystemUnderTest = (): SutTypes => {
