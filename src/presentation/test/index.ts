@@ -1,1 +1,1 @@
-export * from './mockValidation'
+export * from './validation'

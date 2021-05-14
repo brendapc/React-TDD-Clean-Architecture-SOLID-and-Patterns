@@ -1,6 +1,6 @@
 import { IValidation } from '@/presentation/protocols/validation'
 
-export class MockValidation implements IValidation {
+export class ValidationStub implements IValidation {
   errorMessage: string
   fieldName: string
   fieldValue: string
