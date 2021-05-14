@@ -30,10 +30,18 @@ export const Login: React.FC<Props> = ({ validation, authentication }: Props) =>
   }, [formState.email, formState.password])
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
-    event.preventDefault()
-    if (formState.isLoading || formState.emailError || formState.passwordError) return
-    setFormState({ ...formState, isLoading: true })
-    await authentication.auth({ email: formState.email, password: formState.password })
+    try {
+      event.preventDefault()
+      if (formState.isLoading || formState.emailError || formState.passwordError) return
+      setFormState({ ...formState, isLoading: true })
+      await authentication.auth({ email: formState.email, password: formState.password })
+    } catch (err) {
+      setFormState({
+        ...formState,
+        isLoading: false,
+        mainError: err.message
+      })
+    }
   }
 
   return (
