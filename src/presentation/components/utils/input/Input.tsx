@@ -12,7 +12,11 @@ export const Input: React.FC<Props> = (props: Props) => {
   }
 
   const getStatus = (): string => {
-    return '❗'
+    return error ? '❗' : '✔️'
+  }
+
+  const getTitle = (): string => {
+    return error || 'Everything ok'
   }
 
   const handleChange = (event: React.FocusEvent<HTMLInputElement>): void => {
@@ -25,7 +29,7 @@ export const Input: React.FC<Props> = (props: Props) => {
   return (
     <div className={Styles.inputWrapper}>
       <input {...props} data-testid={props.name} readOnly onFocus={enableInput} onChange={handleChange} />
-      <span data-testid={`${props.name}-status`} title={error} className={Styles.status}>{getStatus()}</span>
+      <span data-testid={`${props.name}-status`} title={getTitle()} className={Styles.status}>{getStatus()}</span>
     </div>
   )
 }
