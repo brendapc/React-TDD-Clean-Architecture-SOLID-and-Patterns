@@ -22,12 +22,10 @@ export const Login: React.FC<Props> = ({ validation }: Props) => {
   useEffect(() => {
     setFormState({
       ...formState,
-      emailError: validation.validate('email', formState.email)
+      emailError: validation.validate('email', formState.email),
+      passwordError: validation.validate('password', formState.password)
     })
-  }, [formState.email])
-  useEffect(() => {
-    validation.validate('password', formState.password)
-  }, [formState.password])
+  }, [formState.email, formState.password])
 
   return (
     <div className={Styles.login}>
