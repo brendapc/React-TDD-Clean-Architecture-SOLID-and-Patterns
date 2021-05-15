@@ -63,7 +63,7 @@ describe('Login compoenent', () => {
   test('should mount components with inital state', () => {
     const validationError = faker.random.words()
     const { sut } = makeSystemUnderTest({ validationError })
-    const errorWrap = sut.getByTestId('error-wrap')
+    const errorWrap = sut.getByTestId('error-wrap') // we have to check if the wrapper has any child, since we expect the elements inside it dont exist at first
     expect(errorWrap.childElementCount).toBe(0)
     const submitButton = sut.getByTestId('submit-button') as HTMLButtonElement
     expect(submitButton.disabled).toBe(true)
