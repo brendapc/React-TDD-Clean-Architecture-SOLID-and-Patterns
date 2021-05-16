@@ -23,4 +23,10 @@ describe('Validation Composite', () => {
     const error = sut.validate('anyField', 'anyValue')
     expect(error).toBe('first error message')
   })
+
+  test('should not return an error when fields are valid', () => {
+    const { sut } = makeSystemUnderTest()
+    const error = sut.validate('anyField', 'anyValue')
+    expect(error).toBeFalsy()
+  })
 })
