@@ -1,4 +1,4 @@
-import { FieldValidation } from '@/validation/protocols/fieldValidation'
+import { IFieldValidation } from '@/validation/protocols/fieldValidation'
 import { RequiredFieldValidation } from '@/validation/validators'
 import { EmailValidation } from '../email/emailValidation'
 import { MinLengthValidation } from '../minLength/minLengthValidation'
@@ -6,7 +6,7 @@ import { MinLengthValidation } from '../minLength/minLengthValidation'
 export class ValidationBuilder {
   private constructor (
     private readonly fieldName: string,
-    private readonly validations: FieldValidation[]
+    private readonly validations: IFieldValidation[]
   ) {} // declared as private because we dont want this class to be a contructor
 
   static field (fieldName: string): ValidationBuilder { // static methods dont have a `this`, they can only be accessed by Class.method
@@ -28,7 +28,7 @@ export class ValidationBuilder {
     return this
   }
 
-  build (): FieldValidation[] {
+  build (): IFieldValidation[] {
     return this.validations
   }
 }
