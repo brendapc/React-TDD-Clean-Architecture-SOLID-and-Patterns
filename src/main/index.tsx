@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Router } from '@/presentation/pages'
-import { makeLoginPage } from './factories/pages/login/loginFactory'
+import { makeLoginPage } from './factories/pages/login/loginPageFactory'
 
 ReactDOM.render(
   <Router

@@ -1,7 +1,7 @@
 import React from 'react'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import '@/presentation/styles/global.scss'
-import { makeLoginPage } from './../../../main/factories/pages/login/loginFactory'
+import { makeLoginPage } from '@/main/factories/pages/login/loginPageFactory'
 
 type Props = {
   makeLoginPage: React.FC
