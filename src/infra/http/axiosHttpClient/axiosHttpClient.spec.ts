@@ -1,7 +1,7 @@
 import { AxiosHttpClient } from './axiosHttpClient'
 import faker from 'faker'
 import { IHttpPostParams } from '@/data/protocols/http'
-import { mockAxios } from '@/infra/test'
+import { mockAxios } from '@/infra/mocks'
 import axios from 'axios'
 import { mockPostRequest } from '@/data/test/mockHttpPostRequest'
 
