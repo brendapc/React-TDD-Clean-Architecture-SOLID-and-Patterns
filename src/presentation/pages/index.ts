@@ -1,2 +1,2 @@
 export { Login } from './login/login'
-export { Router } from './router/Router'
+export { Router } from '../components/router/Router'

@@ -4,7 +4,7 @@ import { IHttpPostParams } from '@/data/protocols/http'
 import { mockAxios } from '@/infra/mocks'
 import axios from 'axios'
 import { mockPostRequest } from '@/data/test/mockHttpPostRequest'
-import { mockHttpResponse } from './../../mocks/mockAxios'
+import { mockHttpResponse } from '../../mocks/mockAxios'
 
 jest.mock('axios')
 
