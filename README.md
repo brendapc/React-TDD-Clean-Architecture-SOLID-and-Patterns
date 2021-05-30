@@ -1,4 +1,6 @@
 [![Build Status](https://travis-ci.com/brendapc/React-TDD-Clean-Architecture-SOLID-e-Patterns.svg?branch=main)](https://travis-ci.com/brendapc/React-TDD-Clean-Architecture-SOLID-e-Patterns)
+
+[![Coverage Status](https://coveralls.io/repos/github/brendapc/React-TDD-Clean-Architecture-SOLID-e-Patterns/badge.svg?branch=main)](https://coveralls.io/github/brendapc/React-TDD-Clean-Architecture-SOLID-e-Patterns?branch=main)
 # React-TDD-Clean-Architecture-SOLID-e-Patterns
 Essa sistema faz parte do treinamento do professor Rodrigo Manguinho (Mango) na Udemy.
 
