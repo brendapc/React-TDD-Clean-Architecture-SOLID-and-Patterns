@@ -3,10 +3,10 @@ import { createMemoryHistory } from 'history'
 import { Router } from 'react-router-dom'
 import { render, RenderResult, cleanup, fireEvent, waitFor } from '@testing-library/react'
 import 'jest-localstorage-mock'
-import { Login } from '@/presentation/pages/login/Login'
 import { AuthenticationSpy, ValidationStub } from '@/presentation/mocks'
 import faker from 'faker'
 import { InvalidCredentialsError } from '@/domain/errors'
+import { Login } from './login'
 
 type SutTypes = {
   sut: RenderResult
