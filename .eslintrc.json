@@ -21,10 +21,12 @@
     "@typescript-eslint/consistent-type-definitions": "off",
     "@typescript-eslint/strict-boolean-expressions": "off",
     "@typescript-eslint/camelcase": "off",
+    "@typescript-eslint/return-await": "off",
     "react/jsx-uses-react": "error",
     "react/jsx-uses-vars": "error",
     "@typescript-eslint/no-unused-vars": "off",
     "@typescript-eslint/no-explicit-any": "off",
-    "@typescript-eslint/ban-types": "off"
+    "@typescript-eslint/ban-types": "off",
+    "@typescript-eslint/comma-spacing": "off"
   }
 }

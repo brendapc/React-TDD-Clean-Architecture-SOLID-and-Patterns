@@ -11,6 +11,6 @@ export class HttpPostClientMock<T, R> implements IHttpPostClient<T, R> {
   async post (params: IHttpPostParams<T>): Promise<IHttpResponse<R>> {
     this.url = params.url
     this.body = params.body
-    return Promise.resolve(this.httpResponse)
+    return this.httpResponse
   }
 }
