@@ -4,9 +4,9 @@ import { ISaveAccessToken } from '@/domain/useCases/saveAccessToken'
 import { LocalSaveAccessToken } from './localSaveAccessToken'
 import { SetStorageSpy } from '@/data/mocks/mockStorage'
 
-interface ISutTypes {
+type ISutTypes = {
   setStorageSpy: SetStorageSpy
-  sut: ISaveAccessToken
+  sut: LocalSaveAccessToken
 }
 
 const makeSystemUnderTest = (): ISutTypes => {
