@@ -3,7 +3,7 @@ import faker from 'faker'
 import { IHttpPostParams } from '@/data/protocols/http'
 import { mockAxios } from '@/infra/mocks'
 import axios from 'axios'
-import { mockPostRequest } from '@/data/test/mockHttpPostRequest'
+import { mockPostRequest } from '@/data/mocks/mockHttpPostRequest'
 import { mockHttpResponse } from '../../mocks/mockAxios'
 
 jest.mock('axios')
