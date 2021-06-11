@@ -35,5 +35,4 @@ describe('LocalSaveAccessToken', () => {
     const promise = sut.save(accessToken)
     await expect(promise).rejects.toThrow()
   })
-  
 })
