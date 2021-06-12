@@ -5,14 +5,15 @@ import { Input, FormStatus } from '@/presentation/components/utils'
 import Styles from './login-styles.scss'
 import Context from '../../contexts/form/FormContext'
 import { IValidation } from '../../protocols/validation'
-import { IAuthentication } from '@/domain/useCases'
+import { IAuthentication, ISaveAccessToken } from '@/domain/useCases'
 
 type Props = {
   validation: IValidation
   authentication: IAuthentication
+  saveAccessToken: ISaveAccessToken
 }
 
-export const Login: React.FC<Props> = ({ validation, authentication }: Props) => {
+export const Login: React.FC<Props> = ({ validation, authentication,saveAccessToken }: Props) => {
   const history = useHistory()
 
   const [formState, setFormState] = useState({
@@ -36,9 +37,13 @@ export const Login: React.FC<Props> = ({ validation, authentication }: Props) =>
     try {
       event.preventDefault()
       if (formState.isLoading || formState.emailError || formState.passwordError) return
+
       setFormState({ ...formState, isLoading: true })
+
       const account = await authentication.auth({ email: formState.email, password: formState.password })
-      localStorage.setItem('accessToken', account.accessToken)
+
+      await saveAccessToken.save(account.accessToken)
+
       history.replace('/')
     } catch (err) {
       setFormState({
