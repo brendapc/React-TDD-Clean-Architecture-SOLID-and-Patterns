@@ -6,7 +6,7 @@ import 'jest-localstorage-mock'
 import { AuthenticationSpy, ValidationStub } from '@/presentation/mocks'
 import faker from 'faker'
 import { InvalidCredentialsError } from '@/domain/errors'
-import { Login } from './login'
+import { Login } from './Login'
 
 type SutTypes = {
   sut: RenderResult
