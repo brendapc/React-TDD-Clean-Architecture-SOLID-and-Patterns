@@ -19,4 +19,11 @@ describe('Required Field Validation', () => {
     const error = sut.validate('')
     expect(error).toEqual(new InvalidFieldError())
   })
+
+  test('should return falsy if compare is valid', () => {
+    const valueToCompare = faker.random.word()
+    const { sut } = makeSystemUnderTest(valueToCompare)
+    const error = sut.validate(valueToCompare)
+    expect(error).toBeFalsy()
+  })
 })
