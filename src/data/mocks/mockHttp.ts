@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-types */
+import faker from 'faker'
 import { IHttpPostClient, IHttpPostParams, HttpStatusCode, IHttpResponse } from '@/data/protocols/http'
 
 export class HttpPostClientMock<T, R> implements IHttpPostClient<T, R> {
@@ -14,3 +14,8 @@ export class HttpPostClientMock<T, R> implements IHttpPostClient<T, R> {
     return this.httpResponse
   }
 }
+
+export const mockPostRequest = (): IHttpPostParams<any> => ({
+  url: faker.internet.url(),
+  body: faker.random.objectElement()
+})

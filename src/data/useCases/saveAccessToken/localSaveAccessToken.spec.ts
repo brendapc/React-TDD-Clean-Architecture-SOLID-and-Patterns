@@ -2,7 +2,7 @@
 import faker from 'faker'
 import { ISaveAccessToken } from '@/domain/useCases/saveAccessToken'
 import { LocalSaveAccessToken } from './localSaveAccessToken'
-import { SetStorageMock } from '@/data/mocks/mockStorage'
+import { SetStorageMock } from '@/data/mocks'
 
 type ISutTypes = {
   setStorageMock: SetStorageMock
