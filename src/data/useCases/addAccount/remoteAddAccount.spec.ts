@@ -1,6 +1,6 @@
+import faker from 'faker'
 import { RemoteAddAccount } from './remoteAddAccount'
 import { HttpPostClientSpy } from '@/data/mocks'
-import faker from 'faker'
 import { IAccountModel } from '@/domain/models'
 import { IAddAccountParams } from '@/domain/useCases'
 import { mockAddAccountParams } from '@/domain/mocks'
@@ -54,6 +54,14 @@ describe('RemoteAddAccount', () => {
     const { sut, httpPostClientSpy } = makeSystemUnderTest()
     httpPostClientSpy.httpResponse = {
       statusCode: HttpStatusCode.serverError
+    }
+    const promise = sut.add(mockAddAccountParams())
+    await expect(promise).rejects.toThrow(new UnexpectedError())
+  })
+  test('should throw UnexpectedError if HttpClient returns 500', async () => {
+    const { sut, httpPostClientSpy } = makeSystemUnderTest()
+    httpPostClientSpy.httpResponse = {
+      statusCode: HttpStatusCode.notFound
     }
     const promise = sut.add(mockAddAccountParams())
     await expect(promise).rejects.toThrow(new UnexpectedError())
