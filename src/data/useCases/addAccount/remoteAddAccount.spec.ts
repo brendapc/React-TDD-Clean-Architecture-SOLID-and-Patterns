@@ -1,29 +1,29 @@
 import { RemoteAddAccount } from './remoteAddAccount'
-import { HttpPostClientMock } from '@/data/mocks'
+import { HttpPostClientSpy } from '@/data/mocks'
 import faker from 'faker'
 import { IAccountModel } from '@/domain/models'
 import { IAddAccountParams } from '@/domain/useCases'
-import { mockAddAccountParams } from '@/domain/test'
+import { mockAddAccountParams } from '@/domain/mocks'
 
 type SutTypes = {
   sut: RemoteAddAccount
-  httpPostClientMock: HttpPostClientMock<IAddAccountParams, IAccountModel>
+  httpPostClientSpy: HttpPostClientSpy<IAddAccountParams, IAccountModel>
 }
 
 const makeSystemUnderTest = (url: string = faker.internet.url()): SutTypes => {
-  const httpPostClientMock = new HttpPostClientMock<IAddAccountParams, IAccountModel>()
-  const sut = new RemoteAddAccount(url, httpPostClientMock)
+  const httpPostClientSpy = new HttpPostClientSpy<IAddAccountParams, IAccountModel>()
+  const sut = new RemoteAddAccount(url, httpPostClientSpy)
   return {
     sut,
-    httpPostClientMock
+    httpPostClientSpy
   }
 }
 
 describe('RemoteAddAccount', () => {
   test('should HttpClient with correct url', async () => {
     const url = faker.internet.url()
-    const { sut, httpPostClientMock } = makeSystemUnderTest(url)
+    const { sut, httpPostClientSpy } = makeSystemUnderTest(url)
     await sut.add(mockAddAccountParams())
-    expect(httpPostClientMock.url).toBe(url)
+    expect(httpPostClientSpy.url).toBe(url)
   })
 })

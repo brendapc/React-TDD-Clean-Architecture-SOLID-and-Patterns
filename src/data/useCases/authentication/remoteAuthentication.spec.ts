@@ -1,6 +1,6 @@
-import { HttpPostClientMock } from '@/data/mocks'
 import { RemoteAuthentication } from './remoteAuthentication'
-import { mockAccountModel, mockAuthentication } from '@/domain/test/'
+import { HttpPostClientSpy } from '@/data/mocks'
+import { mockAccountModel, mockAuthentication } from '@/domain/mocks'
 import faker from 'faker'
 import { HttpStatusCode } from '@/data/protocols/http'
 import { UnexpectedError, InvalidCredentialsError } from '@/domain/errors/'
@@ -9,67 +9,67 @@ import { IAccountModel } from '@/domain/models/'
 
 type SutTypes = {
   sut: RemoteAuthentication
-  httpPostClientMock: HttpPostClientMock<AuthenticationParams, IAccountModel>
+  httpPostClientSpy: HttpPostClientSpy<AuthenticationParams, IAccountModel>
 }
 
 const makeSystemUnderTest = (url: string = faker.internet.url()): SutTypes => {
-  const httpPostClientMock = new HttpPostClientMock<AuthenticationParams, IAccountModel>()
-  const sut = new RemoteAuthentication(url, httpPostClientMock)
+  const httpPostClientSpy = new HttpPostClientSpy<AuthenticationParams, IAccountModel>()
+  const sut = new RemoteAuthentication(url, httpPostClientSpy)
   return {
     sut,
-    httpPostClientMock
+    httpPostClientSpy
   }
 }
 
 describe('RemoteAuthentication', () => {
   test('should HttpClient with correct url', async () => {
     const url = faker.internet.url()
-    const { sut, httpPostClientMock } = makeSystemUnderTest(url)
+    const { sut, httpPostClientSpy } = makeSystemUnderTest(url)
     await sut.auth(mockAuthentication())
-    expect(httpPostClientMock.url).toBe(url)
+    expect(httpPostClientSpy.url).toBe(url)
   })
   test('should HttpClient with correct body', async () => {
-    const { sut, httpPostClientMock } = makeSystemUnderTest()
+    const { sut, httpPostClientSpy } = makeSystemUnderTest()
     const authenticationParams = mockAuthentication()
     await sut.auth(authenticationParams)
-    expect(httpPostClientMock.body).toEqual(authenticationParams)
+    expect(httpPostClientSpy.body).toEqual(authenticationParams)
   })
   test('should throw UnexpectedError if HttpClient returns 400', async () => {
-    const { sut, httpPostClientMock } = makeSystemUnderTest()
-    httpPostClientMock.httpResponse = {
+    const { sut, httpPostClientSpy } = makeSystemUnderTest()
+    httpPostClientSpy.httpResponse = {
       statusCode: HttpStatusCode.badRequest
     }
     const promise = sut.auth(mockAuthentication())
     await expect(promise).rejects.toThrow(new UnexpectedError())
   })
   test('should throw InvalidCredentialsError if HttpClient returns 401', async () => {
-    const { sut, httpPostClientMock } = makeSystemUnderTest()
-    httpPostClientMock.httpResponse = {
+    const { sut, httpPostClientSpy } = makeSystemUnderTest()
+    httpPostClientSpy.httpResponse = {
       statusCode: HttpStatusCode.unauthorized
     }
     const promise = sut.auth(mockAuthentication())
     await expect(promise).rejects.toThrow(new InvalidCredentialsError())
   })
   test('should throw UnexpectedError if HttpClient returns 404', async () => {
-    const { sut, httpPostClientMock } = makeSystemUnderTest()
-    httpPostClientMock.httpResponse = {
+    const { sut, httpPostClientSpy } = makeSystemUnderTest()
+    httpPostClientSpy.httpResponse = {
       statusCode: HttpStatusCode.notFound
     }
     const promise = sut.auth(mockAuthentication())
     await expect(promise).rejects.toThrow(new UnexpectedError())
   })
   test('should throw UnexpectedError if HttpClient returns 500', async () => {
-    const { sut, httpPostClientMock } = makeSystemUnderTest()
-    httpPostClientMock.httpResponse = {
+    const { sut, httpPostClientSpy } = makeSystemUnderTest()
+    httpPostClientSpy.httpResponse = {
       statusCode: HttpStatusCode.serverError
     }
     const promise = sut.auth(mockAuthentication())
     await expect(promise).rejects.toThrow(new UnexpectedError())
   })
   test('should return an AccountModel if an HttpPostClient returns 200', async () => {
-    const { sut, httpPostClientMock } = makeSystemUnderTest()
+    const { sut, httpPostClientSpy } = makeSystemUnderTest()
     const httpResponseBody = mockAccountModel()
-    httpPostClientMock.httpResponse = {
+    httpPostClientSpy.httpResponse = {
       statusCode: HttpStatusCode.okRequest,
       body: httpResponseBody
     }

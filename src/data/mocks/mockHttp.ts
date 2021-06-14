@@ -1,7 +1,7 @@
 import faker from 'faker'
 import { IHttpPostClient, IHttpPostParams, HttpStatusCode, IHttpResponse } from '@/data/protocols/http'
 
-export class HttpPostClientMock<T, R> implements IHttpPostClient<T, R> {
+export class HttpPostClientSpy<T, R> implements IHttpPostClient<T, R> {
   url?: string
   body?: T
   httpResponse: IHttpResponse<R> = {
