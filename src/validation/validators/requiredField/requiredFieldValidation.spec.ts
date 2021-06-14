@@ -14,7 +14,7 @@ const makeSystemUnderTest = (field): SutTypes => {
 }
 
 describe('Required Field Validation', () => {
-  test('should return an error if ', () => {
+  test('should return an error if field is empty', () => {
     const { sut } = makeSystemUnderTest('email')
     const error = sut.validate('')
     expect(error).toEqual(new RequiredFieldError())
