@@ -1,20 +1,27 @@
 import React from 'react'
 import { Router } from 'react-router-dom'
 import { createMemoryHistory } from 'history'
-import { render, RenderResult } from '@testing-library/react'
+import { render, RenderResult, cleanup, fireEvent } from '@testing-library/react'
 import { Signup } from './Signup'
-import { Helper } from '@/presentation/mocks'
+import { Helper, ValidationStub } from '@/presentation/mocks'
+import faker from 'faker'
 
 type SutTypes = {
   sut: RenderResult
 }
 
+type SutParams = {
+  validationError: string
+}
+
 const history = createMemoryHistory({ initialEntries: ['/login'] })
 
-const makeSystemUnderTest = (): SutTypes => {
+const makeSystemUnderTest = (params?: SutParams): SutTypes => {
+  const validationStub = new ValidationStub()
+  validationStub.errorMessage = params?.validationError
   const sut = render(
         <Router history={history}>
-            <Signup/>
+            <Signup validation={validationStub} />
         </Router>
   )
   return {
@@ -22,15 +29,29 @@ const makeSystemUnderTest = (): SutTypes => {
   }
 }
 
+const populateField = (sut: RenderResult, fieldName: string, value = faker.random.word()): void => {
+  const input = sut.getByTestId(fieldName)
+  fireEvent.input(input, { target: { value } })
+}
+
 describe('Singup compoenent', () => {
+  afterEach(cleanup)
+
   test('should mount components with inital state', () => {
-    const validationError = 'Campo Obrigatório'
-    const { sut } = makeSystemUnderTest()
+    const validationError = faker.random.words()
+    const { sut } = makeSystemUnderTest({ validationError })
     Helper.testChildCount(sut, 'error-wrap', 0)
     Helper.testButtonIsDisabled(sut, 'submit-button', true)
     Helper.testStatusForField(sut, 'username', validationError)
-    Helper.testStatusForField(sut, 'email', validationError)
-    Helper.testStatusForField(sut, 'password', validationError)
-    Helper.testStatusForField(sut, 'passwordConfirmation', validationError)
+    Helper.testStatusForField(sut, 'email', 'Campo Obrigatório')
+    Helper.testStatusForField(sut, 'password', 'Campo Obrigatório')
+    Helper.testStatusForField(sut, 'passwordConfirmation', 'Campo Obrigatório')
+  })
+
+  test('should show username error if validation fails', () => {
+    const validationError = faker.random.words()
+    const { sut } = makeSystemUnderTest({ validationError })
+    populateField(sut, 'username')
+    Helper.testStatusForField(sut, 'username', validationError)
   })
 })
