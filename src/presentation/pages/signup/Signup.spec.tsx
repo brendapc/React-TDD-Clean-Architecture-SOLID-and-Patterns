@@ -1,7 +1,7 @@
 import React from 'react'
 import { Router } from 'react-router-dom'
 import { createMemoryHistory } from 'history'
-import { render, RenderResult, cleanup, fireEvent } from '@testing-library/react'
+import { render, RenderResult, cleanup } from '@testing-library/react'
 import { Signup } from './Signup'
 import { Helper, ValidationStub } from '@/presentation/mocks'
 import faker from 'faker'
@@ -29,11 +29,6 @@ const makeSystemUnderTest = (params?: SutParams): SutTypes => {
   }
 }
 
-const populateField = (sut: RenderResult, fieldName: string, value = faker.random.word()): void => {
-  const input = sut.getByTestId(fieldName)
-  fireEvent.input(input, { target: { value } })
-}
-
 describe('Singup compoenent', () => {
   afterEach(cleanup)
 
@@ -51,7 +46,7 @@ describe('Singup compoenent', () => {
   test('should show username error if validation fails', () => {
     const validationError = faker.random.words()
     const { sut } = makeSystemUnderTest({ validationError })
-    populateField(sut, 'username')
+    Helper.populateField(sut, 'username')
     Helper.testStatusForField(sut, 'username', validationError)
   })
 })

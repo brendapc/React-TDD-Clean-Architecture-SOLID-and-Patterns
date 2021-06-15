@@ -1,9 +1,9 @@
 import React from 'react'
 import { createMemoryHistory } from 'history'
 import { Router } from 'react-router-dom'
+import faker from 'faker'
 import { render, RenderResult, cleanup, fireEvent, waitFor } from '@testing-library/react'
 import { AuthenticationSpy, ValidationStub , Helper } from '@/presentation/mocks'
-import faker from 'faker'
 import { InvalidCredentialsError } from '@/domain/errors'
 import { Login } from './Login'
 import { SaveAccessTokenMock } from '@/presentation/mocks/'
@@ -36,21 +36,11 @@ const makeSystemUnderTest = (params?: SutParams): SutTypes => {
 }
 
 const simulateValidSubmit = async (sut: RenderResult, email = faker.internet.email(), password = faker.internet.password()): Promise<void> => {
-  populateEmailField(sut, email)
-  populatePasswordField(sut, password)
+  Helper.populateField(sut, 'email', email)
+  Helper.populateField(sut,'password', password)
   const form = sut.getByTestId('login-form')
   fireEvent.submit(form)
   await waitFor(() => form)
-}
-
-const populateEmailField = (sut: RenderResult, email = faker.internet.email()): void => {
-  const emailInput = sut.getByTestId('email')
-  fireEvent.input(emailInput, { target: { value: email } })
-}
-
-const populatePasswordField = (sut: RenderResult, password = faker.internet.password()): void => {
-  const passwordInput = sut.getByTestId('password')
-  fireEvent.input(passwordInput, { target: { value: password } })
 }
 
 const testElementText = (sut: RenderResult, fieldName: string, text: string): void => {
@@ -73,33 +63,33 @@ describe('Login compoenent', () => {
   test('should show email error if validation fails', () => {
     const validationError = faker.random.words()
     const { sut } = makeSystemUnderTest({ validationError })
-    populateEmailField(sut)
+    Helper.populateField(sut, 'email')
     Helper.testStatusForField(sut, 'email', validationError)
   })
 
   test('should show password error if Validation fails', () => {
     const validationError = faker.random.words()
     const { sut } = makeSystemUnderTest({ validationError })
-    populatePasswordField(sut)
+    Helper.populateField(sut, 'password')
     Helper.testStatusForField(sut, 'password', validationError)
   })
 
   test('should show valid status if email validation succeeds', () => {
     const { sut } = makeSystemUnderTest()
-    populateEmailField(sut)
+    Helper.populateField(sut, 'email')
     Helper.testStatusForField(sut, 'email')
   })
 
   test('should show valid status if password validation succeeds', () => {
     const { sut } = makeSystemUnderTest()
-    populatePasswordField(sut)
+    Helper.populateField(sut, 'password')
     Helper.testStatusForField(sut, 'password')
   })
 
   test('should enable submit button if form values are valid', () => {
     const { sut } = makeSystemUnderTest()
-    populateEmailField(sut)
-    populatePasswordField(sut)
+    Helper.populateField(sut, 'email')
+    Helper.populateField(sut, 'password')
     Helper.testButtonIsDisabled(sut,'submit-button', false)
   })
 
@@ -130,7 +120,7 @@ describe('Login compoenent', () => {
   test('should not call Authentication if form values are invalid', () => {
     const validationError = faker.random.words()
     const { sut, authenticationSpy } = makeSystemUnderTest({ validationError })
-    populateEmailField(sut)
+    Helper.populateField(sut, 'email')
     fireEvent.submit(sut.getByTestId('login-form'))
     expect(authenticationSpy.callsCount).toBe(0)
   })
