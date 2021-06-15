@@ -1,24 +1,40 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { Footer, LoginHeader } from '@/presentation/components/layout'
 import { Input, FormStatus } from '@/presentation/components/utils'
+import { IValidation } from '@/presentation/protocols/validation'
 import Context from '../../contexts/form/FormContext'
 import Styles from './signup-styles.scss'
 
-export const Signup: React.FC = () => {
-  const [formState] = useState({
+type Props = {
+  validation: IValidation
+}
+
+export const Signup: React.FC<Props> = ({ validation }: Props) => {
+  const [formState , setFormState] = useState({
     isLoading: false,
-    usernameError: 'Campo Obrigatório',
+    username: '',
+    email: '',
+    password: '',
+    passwordConfirmation: '',
+    usernameError: '',
     emailError: 'Campo Obrigatório',
     passwordError: 'Campo Obrigatório',
     passwordConfirmationError: 'Campo Obrigatório',
     mainError: ''
   })
 
+  useEffect(() => {
+    setFormState({
+      ...formState,
+      usernameError: validation.validate('username', formState.username)
+    })
+  }, [formState.email, formState.password])
+
   return (
       <div className={Styles.signup}>
         <LoginHeader />
-        <Context.Provider value={{ formState }}>
+        <Context.Provider value={{ formState, setFormState }}>
           <form className={Styles.form} >
             <h2>Cadastro</h2>
             <Input type="text" name="username" placeholder="Digite seu nome" />
