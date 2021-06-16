@@ -39,7 +39,7 @@ describe('Singup compoenent', () => {
     Helper.testButtonIsDisabled(sut, 'submit-button', true)
     Helper.testStatusForField(sut, 'username', validationError)
     Helper.testStatusForField(sut, 'email', validationError)
-    Helper.testStatusForField(sut, 'password', 'Campo Obrigatório')
+    Helper.testStatusForField(sut, 'password', validationError)
     Helper.testStatusForField(sut, 'passwordConfirmation', 'Campo Obrigatório')
   })
 
@@ -55,5 +55,11 @@ describe('Singup compoenent', () => {
     const { sut } = makeSystemUnderTest({ validationError })
     Helper.populateField(sut, 'email')
     Helper.testStatusForField(sut, 'email', validationError)
+  })
+  test('should show password error if validation fails', () => {
+    const validationError = faker.random.words()
+    const { sut } = makeSystemUnderTest({ validationError })
+    Helper.populateField(sut, 'password')
+    Helper.testStatusForField(sut, 'password', validationError)
   })
 })
