@@ -3,11 +3,12 @@ import { Router } from 'react-router-dom'
 import { createMemoryHistory } from 'history'
 import { render, RenderResult, cleanup, waitFor, fireEvent } from '@testing-library/react'
 import { Signup } from './Signup'
-import { Helper, ValidationStub } from '@/presentation/mocks'
+import { Helper, ValidationStub , AddAccountSpy } from '@/presentation/mocks'
 import faker from 'faker'
 
 type SutTypes = {
   sut: RenderResult
+  addAccountSpy: AddAccountSpy
 }
 
 type SutParams = {
@@ -19,13 +20,15 @@ const history = createMemoryHistory({ initialEntries: ['/login'] })
 const makeSystemUnderTest = (params?: SutParams): SutTypes => {
   const validationStub = new ValidationStub()
   validationStub.errorMessage = params?.validationError
+  const addAccountSpy = new AddAccountSpy()
   const sut = render(
         <Router history={history}>
-            <Signup validation={validationStub} />
+            <Signup validation={validationStub} addAccount={addAccountSpy}/>
         </Router>
   )
   return {
-    sut
+    sut,
+    addAccountSpy
   }
 }
 export const simulateValidSubmit = async (sut: RenderResult, username = faker.internet.userName(), email = faker.internet.email(), password = faker.internet.password()): Promise<void> => {
@@ -111,5 +114,16 @@ describe('Singup compoenent', () => {
     const { sut } = makeSystemUnderTest()
     await simulateValidSubmit(sut)
     Helper.testElementExists(sut, 'spinner')
+  })
+
+  test('should call AddAccount with correct values', async () => {
+    const { sut, addAccountSpy } = makeSystemUnderTest()
+    const username = faker.internet.userName()
+    const email = faker.internet.email()
+    const password = faker.internet.password()
+    await simulateValidSubmit(sut, username, email, password)
+    expect(addAccountSpy.params).toEqual({
+      username, email, password, passwordConfirmation: password
+    })
   })
 })
