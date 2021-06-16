@@ -5,12 +5,14 @@ import { Input, FormStatus } from '@/presentation/components/utils'
 import { IValidation } from '@/presentation/protocols/validation'
 import Context from '../../contexts/form/FormContext'
 import Styles from './signup-styles.scss'
+import { IAddAccount } from '@/domain/useCases'
 
 type Props = {
   validation: IValidation
+  addAccount: IAddAccount
 }
 
-export const Signup: React.FC<Props> = ({ validation }: Props) => {
+export const Signup: React.FC<Props> = ({ validation, addAccount }: Props) => {
   const [formState , setFormState] = useState({
     isLoading: false,
     username: '',
@@ -37,6 +39,7 @@ export const Signup: React.FC<Props> = ({ validation }: Props) => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
     setFormState({ ...formState, isLoading: true })
+    await addAccount.add({ username: formState.username, email: formState.email,password: formState.password,passwordConfirmation: formState.passwordConfirmation })
   }
 
   return (
