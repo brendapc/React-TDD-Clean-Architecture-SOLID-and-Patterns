@@ -88,4 +88,13 @@ describe('Singup compoenent', () => {
     Helper.populateField(sut, 'passwordConfirmation')
     Helper.testStatusForField(sut, 'passwordConfirmation')
   })
+
+  test('should enable submit button if form is valid', () => {
+    const { sut } = makeSystemUnderTest()
+    Helper.populateField(sut, 'username')
+    Helper.populateField(sut, 'email')
+    Helper.populateField(sut, 'password')
+    Helper.populateField(sut, 'passwordConfirmation')
+    Helper.testButtonIsDisabled(sut, 'submit-button',false)
+  })
 })
