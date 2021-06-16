@@ -1,7 +1,7 @@
 import { IAccountModel } from '@/domain/models/accountModel'
 
 export type IAddAccountParams = {
-  name: string
+  username: string
   email: string
   password: string
   passwordConfirmation: string
