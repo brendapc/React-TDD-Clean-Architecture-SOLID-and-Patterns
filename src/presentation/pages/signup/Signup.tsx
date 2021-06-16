@@ -19,7 +19,7 @@ export const Signup: React.FC<Props> = ({ validation }: Props) => {
     passwordConfirmation: '',
     usernameError: '',
     emailError: '',
-    passwordError: 'Campo Obrigatório',
+    passwordError: '',
     passwordConfirmationError: 'Campo Obrigatório',
     mainError: ''
   })
@@ -28,9 +28,10 @@ export const Signup: React.FC<Props> = ({ validation }: Props) => {
     setFormState({
       ...formState,
       usernameError: validation.validate('username', formState.username),
-      emailError: validation.validate('email', formState.email)
+      emailError: validation.validate('email', formState.email),
+      passwordError: validation.validate('password', formState.password)
     })
-  }, [formState.email, formState.password])
+  }, [formState.username, formState.email, formState.password])
 
   return (
       <div className={Styles.signup}>
