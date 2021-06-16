@@ -126,4 +126,11 @@ describe('Singup compoenent', () => {
       username, email, password, passwordConfirmation: password
     })
   })
+
+  test('should call AddAccount just once', async () => {
+    const { sut, addAccountSpy } = makeSystemUnderTest()
+    await simulateValidSubmit(sut)
+    await simulateValidSubmit(sut)
+    expect(addAccountSpy.callsCount).toBe(1)
+  })
 })
