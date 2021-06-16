@@ -78,4 +78,10 @@ describe('Singup compoenent', () => {
     Helper.populateField(sut, 'email')
     Helper.testStatusForField(sut, 'email')
   })
+  test('should show valid password if validation succeeds', () => {
+    const { sut } = makeSystemUnderTest()
+    Helper.populateField(sut, 'password')
+    Helper.testStatusForField(sut, 'password')
+  })
+ 
 })
