@@ -1,7 +1,7 @@
 import React from 'react'
 import { Router } from 'react-router-dom'
 import { createMemoryHistory } from 'history'
-import { render, RenderResult, cleanup, fireEvent, waitFor } from '@testing-library/react'
+import { render, RenderResult, cleanup, waitFor, fireEvent } from '@testing-library/react'
 import { Signup } from './Signup'
 import { Helper, ValidationStub } from '@/presentation/mocks'
 import faker from 'faker'
@@ -28,8 +28,7 @@ const makeSystemUnderTest = (params?: SutParams): SutTypes => {
     sut
   }
 }
-
-const simulateValidSubmit = async (sut: RenderResult, username = faker.internet.userName(), email = faker.internet.email(), password = faker.internet.password()): Promise<void> => {
+export const simulateValidSubmit = async (sut: RenderResult, username = faker.internet.userName(), email = faker.internet.email(), password = faker.internet.password()): Promise<void> => {
   Helper.populateField(sut, 'username', username)
   Helper.populateField(sut, 'email', email)
   Helper.populateField(sut,'password', password)
@@ -37,11 +36,6 @@ const simulateValidSubmit = async (sut: RenderResult, username = faker.internet.
   const form = sut.getByTestId('login-form')
   fireEvent.submit(form)
   await waitFor(() => form)
-}
-
-const testElementExists = (sut: RenderResult, fieldName: string): void => {
-  const element = sut.getByTestId(fieldName)
-  expect(element).toBeTruthy()
 }
 
 describe('Singup compoenent', () => {
@@ -116,6 +110,6 @@ describe('Singup compoenent', () => {
   test('should show spinner f form is valid', async () => {
     const { sut } = makeSystemUnderTest()
     await simulateValidSubmit(sut)
-    testElementExists(sut, 'spinner')
+    Helper.testElementExists(sut, 'spinner')
   })
 })
