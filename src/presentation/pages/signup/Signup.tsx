@@ -5,14 +5,16 @@ import { Input, FormStatus } from '@/presentation/components/utils'
 import { IValidation } from '@/presentation/protocols/validation'
 import Context from '../../contexts/form/FormContext'
 import Styles from './signup-styles.scss'
-import { IAddAccount } from '@/domain/useCases'
+import { IAddAccount, ISaveAccessToken } from '@/domain/useCases'
 
 type Props = {
   validation: IValidation
   addAccount: IAddAccount
+  saveAccessToken: ISaveAccessToken
 }
 
-export const Signup: React.FC<Props> = ({ validation, addAccount }: Props) => {
+export const Signup: React.FC<Props> = ({ validation, addAccount, saveAccessToken }: Props) => {
+  const history = useHistory()
   const [formState , setFormState] = useState({
     isLoading: false,
     username: '',
@@ -41,7 +43,11 @@ export const Signup: React.FC<Props> = ({ validation, addAccount }: Props) => {
     try {
       if (formState.isLoading || formState.usernameError || formState.emailError || formState.passwordError || formState.passwordConfirmationError) return
       setFormState({ ...formState, isLoading: true })
-      await addAccount.add({ username: formState.username, email: formState.email,password: formState.password,passwordConfirmation: formState.passwordConfirmation })
+      const account = await addAccount.add({ username: formState.username, email: formState.email,password: formState.password,passwordConfirmation: formState.passwordConfirmation })
+
+      await saveAccessToken.save(account.accessToken)
+
+      history.replace('/')
     } catch (err) {
       setFormState({
         ...formState,
