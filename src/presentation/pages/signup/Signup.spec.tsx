@@ -175,9 +175,9 @@ describe('Singup compoenent', () => {
   })
   test('should send user to signup page', () => {
     const { sut } = makeSystemUnderTest()
-    const login = sut.getByTestId('login')
+    const login = sut.getByTestId('login-link')
     fireEvent.click(login)
-    expect(history.length).toBe(2)
+    expect(history.length).toBe(1)
     expect(history.location.pathname).toBe('/login')
   })
 })

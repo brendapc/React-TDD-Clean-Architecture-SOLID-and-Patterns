@@ -68,7 +68,7 @@ export const Signup: React.FC<Props> = ({ validation, addAccount, saveAccessToke
             <Input type="password" name="password" placeholder="Digite sua senha" />
             <Input type="password" name="passwordConfirmation" placeholder="Confirme sua senha" />
             <button className={Styles.submit} data-testid="submit-button" disabled={!!formState.usernameError || !!formState.emailError || !!formState.passwordError || !!formState.passwordConfirmationError}>Entrar</button>
-            <Link data-testid="login" to="/login" className={Styles.link}>Voltar para login</Link>
+            <Link data-testid="login-link" replace to="/login" className={Styles.link}>Voltar para login</Link>
             <FormStatus />
           </form>
         </Context.Provider>
