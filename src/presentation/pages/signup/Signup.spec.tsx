@@ -173,4 +173,11 @@ describe('Singup compoenent', () => {
     Helper.testElementText(sut, 'main-error', error.message)
     Helper.testChildCount(sut, 'error-wrap', 1)
   })
+  test('should send user to signup page', () => {
+    const { sut } = makeSystemUnderTest()
+    const login = sut.getByTestId('login')
+    fireEvent.click(login)
+    expect(history.length).toBe(2)
+    expect(history.location.pathname).toBe('/login')
+  })
 })
