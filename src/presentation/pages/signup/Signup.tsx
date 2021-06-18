@@ -17,6 +17,7 @@ export const Signup: React.FC<Props> = ({ validation, addAccount, saveAccessToke
   const history = useHistory()
   const [formState , setFormState] = useState({
     isLoading: false,
+    isFormInvalid: true,
     username: '',
     email: '',
     password: '',
@@ -29,19 +30,25 @@ export const Signup: React.FC<Props> = ({ validation, addAccount, saveAccessToke
   })
 
   useEffect(() => {
+    const usernameError = validation.validate('username', formState.username)
+    const emailError = validation.validate('email', formState.email)
+    const passwordError = validation.validate('password', formState.password)
+    const passwordConfirmationError = validation.validate('passwordConfirmation', formState.passwordConfirmation)
+
     setFormState({
       ...formState,
-      usernameError: validation.validate('username', formState.username),
-      emailError: validation.validate('email', formState.email),
-      passwordError: validation.validate('password', formState.password),
-      passwordConfirmationError: validation.validate('passwordConfirmation', formState.passwordConfirmation)
+      usernameError,
+      emailError,
+      passwordError,
+      passwordConfirmationError,
+      isFormInvalid: !!usernameError || !!emailError || !!passwordError || !!passwordConfirmationError
     })
   }, [formState.username, formState.email, formState.password, formState.passwordConfirmation])
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
     try {
-      if (formState.isLoading || formState.usernameError || formState.emailError || formState.passwordError || formState.passwordConfirmationError) return
+      if (formState.isLoading || formState.isFormInvalid) return
       setFormState({ ...formState, isLoading: true })
       const account = await addAccount.add({ username: formState.username, email: formState.email,password: formState.password,passwordConfirmation: formState.passwordConfirmation })
 
@@ -67,7 +74,7 @@ export const Signup: React.FC<Props> = ({ validation, addAccount, saveAccessToke
             <Input type="email" name="email" placeholder="Digite seu e-mail" />
             <Input type="password" name="password" placeholder="Digite sua senha" />
             <Input type="password" name="passwordConfirmation" placeholder="Confirme sua senha" />
-            <button className={Styles.submit} data-testid="submit-button" disabled={!!formState.usernameError || !!formState.emailError || !!formState.passwordError || !!formState.passwordConfirmationError}>Entrar</button>
+            <button className={Styles.submit} data-testid="submit-button" disabled={formState.isFormInvalid}>Entrar</button>
             <Link data-testid="login-link" replace to="/login" className={Styles.link}>Voltar para login</Link>
             <FormStatus />
           </form>
