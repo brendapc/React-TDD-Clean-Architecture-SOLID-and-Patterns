@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { Footer, LoginHeader } from '@/presentation/components/layout'
-import { Input, FormStatus } from '@/presentation/components/utils'
+import { Input, FormStatus, SubmitButton } from '@/presentation/components/utils'
 import { IValidation } from '@/presentation/protocols/validation'
 import Context from '../../contexts/form/FormContext'
 import Styles from './signup-styles.scss'
@@ -74,7 +74,7 @@ export const Signup: React.FC<Props> = ({ validation, addAccount, saveAccessToke
             <Input type="email" name="email" placeholder="Digite seu e-mail" />
             <Input type="password" name="password" placeholder="Digite sua senha" />
             <Input type="password" name="passwordConfirmation" placeholder="Confirme sua senha" />
-            <button className={Styles.submit} data-testid="submit-button" disabled={formState.isFormInvalid}>Entrar</button>
+            <SubmitButton text="Cadastrar" />
             <Link data-testid="login-link" replace to="/login" className={Styles.link}>Voltar para login</Link>
             <FormStatus />
           </form>
