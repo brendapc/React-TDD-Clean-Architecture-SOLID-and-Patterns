@@ -6,14 +6,15 @@ import { Signup } from '@/presentation/pages/'
 
 type Props = {
   makeLoginPage: React.FC
+  makeSignupPage: React.FC
 }
 
-export const Router: React.FC<Props> = ({ makeLoginPage }: Props) => {
+export const Router: React.FC<Props> = (factory: Props) => {
   return (
     <BrowserRouter>
       <Switch>
-        <Route path="/login" exact component={makeLoginPage} />
-        <Route path="/signup" exact component={Signup} />
+        <Route path="/login" exact component={factory.makeLoginPage} />
+        <Route path="/signup" exact component={factory.makeSignupPage} />
       </Switch>
     </BrowserRouter>
   )

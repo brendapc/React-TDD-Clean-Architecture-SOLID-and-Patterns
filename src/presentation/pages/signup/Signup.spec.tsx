@@ -47,7 +47,7 @@ export const simulateValidSubmit = async (sut: RenderResult, username = faker.in
   await waitFor(() => form)
 }
 
-describe('Singup compoenent', () => {
+describe('Signup compoenent', () => {
   afterEach(cleanup)
 
   test('should mount components with inital state', () => {
