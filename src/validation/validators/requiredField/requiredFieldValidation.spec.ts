@@ -6,7 +6,7 @@ interface SutTypes {
   sut: RequiredFieldValidation
 }
 
-const makeSystemUnderTest = (field): SutTypes => {
+const makeSystemUnderTest = (field: string): SutTypes => {
   const sut = new RequiredFieldValidation(field)
   return {
     sut
@@ -15,14 +15,16 @@ const makeSystemUnderTest = (field): SutTypes => {
 
 describe('Required Field Validation', () => {
   test('should return an error if field is empty', () => {
-    const { sut } = makeSystemUnderTest('email')
-    const error = sut.validate('')
+    const field = faker.database.column()
+    const { sut } = makeSystemUnderTest(field)
+    const error = sut.validate({ [field]: '' })
     expect(error).toEqual(new RequiredFieldError())
   })
 
   test('should not return an error if field id not empty', () => {
-    const { sut } = makeSystemUnderTest('email')
-    const error = sut.validate(faker.random.word())
+    const field = faker.database.column()
+    const { sut } = makeSystemUnderTest(field)
+    const error = sut.validate({ [field]: faker.random.word() })
     expect(error).toBeFalsy()
   })
 })

@@ -30,10 +30,12 @@ export const Signup: React.FC<Props> = ({ validation, addAccount, saveAccessToke
   })
 
   useEffect(() => {
-    const usernameError = validation.validate('username', formState.username)
-    const emailError = validation.validate('email', formState.email)
-    const passwordError = validation.validate('password', formState.password)
-    const passwordConfirmationError = validation.validate('passwordConfirmation', formState.passwordConfirmation)
+    const { username, email, password, passwordConfirmation } = formState
+    const formData = { username, email, password, passwordConfirmation }
+    const usernameError = validation.validate('username', formData)
+    const emailError = validation.validate('email', formData)
+    const passwordError = validation.validate('password', formData)
+    const passwordConfirmationError = validation.validate('passwordConfirmation', formData)
 
     setFormState({
       ...formState,

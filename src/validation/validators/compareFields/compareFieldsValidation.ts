@@ -4,10 +4,9 @@ import { IFieldValidation } from '@/validation/protocols/fieldValidation'
 export class CompareFieldsValidation implements IFieldValidation {
   constructor (
     readonly field: string,
-    private readonly valueToCompare: string) {}
+    private readonly fieldToCompare: string) {}
 
-  validate (value: string): Error {
-    if (value !== this.valueToCompare) return new InvalidFieldError()
-    return null
+  validate (input: object): Error {
+    return (input[this.field] !== input[this.fieldToCompare]) ? new InvalidFieldError() : null
   }
 }

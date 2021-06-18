@@ -6,22 +6,25 @@ interface SutTypes {
   sut: EmailValidation
 }
 
-const makeSystemUnderTest = (): EmailValidation => new EmailValidation(faker.database.column())
+const makeSystemUnderTest = (field: string): EmailValidation => new EmailValidation(field)
 
 describe('Email Validation', () => {
   test('should return error if email is invalid', () => {
-    const sut = makeSystemUnderTest()
-    const error = sut.validate(faker.random.word())
+    const field = faker.database.column()
+    const sut = makeSystemUnderTest(field)
+    const error = sut.validate({ [field]: faker.random.word() })
     expect(error).toEqual(new InvalidFieldError())
   })
   test('should not return an error if email is valid', () => {
-    const sut = makeSystemUnderTest()
-    const error = sut.validate(faker.internet.email())
+    const field = faker.database.column()
+    const sut = makeSystemUnderTest(field)
+    const error = sut.validate({ [field]: faker.internet.email() })
     expect(error).toBeFalsy()
   })
   test('should return falsy if email is empty', () => {
-    const sut = makeSystemUnderTest()
-    const error = sut.validate('')
+    const field = faker.database.column()
+    const sut = makeSystemUnderTest(field)
+    const error = sut.validate({ [field]: '' })
     expect(error).toBeFalsy()
   })
 })

@@ -26,10 +26,12 @@ export const Login: React.FC<Props> = ({ validation, authentication,saveAccessTo
   })
 
   useEffect(() => {
+    const { email, password } = formState
+    const formData = { email, password }
     setFormState({
       ...formState,
-      emailError: validation.validate('email', formState.email),
-      passwordError: validation.validate('password', formState.password)
+      emailError: validation.validate('email', formData),
+      passwordError: validation.validate('password', formData)
     })
   }, [formState.email, formState.password])
 
