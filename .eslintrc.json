@@ -9,12 +9,16 @@
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:react/recommended"
+    "plugin:react/recommended",
+    "plugin:cypress/recommended"
   ],
   "ignorePatterns": ["webpack.config.js", "jest.config.js"],
-  "plugins": ["react"],
+  "plugins": ["react", "cypress"],
   "parserOptions": {
     "project": ["./tsconfig.json"]
+  },
+  "env": {
+    "cypress/globals": true
   },
   "parser": "@typescript-eslint/parser",
   "rules": {
