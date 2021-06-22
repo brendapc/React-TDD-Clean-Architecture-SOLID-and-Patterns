@@ -15,7 +15,7 @@
   "ignorePatterns": ["webpack.config.js", "jest.config.js"],
   "plugins": ["react", "cypress"],
   "parserOptions": {
-    "project": ["./tsconfig.json", "./cypress/tsconfig.json"]
+    "project": ["./tsconfig-eslint.json"]
   },
   "env": {
     "cypress/globals": true

@@ -23,4 +23,5 @@
   "rules": {
     "no-unused-vars": "off",
   },
+  "exclude": ["cypress"],
 }
