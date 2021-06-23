@@ -6,7 +6,6 @@
     "module": "esnext",
     "moduleResolution": "node",
     "jsx": "react",
-    "rootDir": "src",
     "baseUrl": "src",
     "paths": {
       "@/*": ["*"]
@@ -20,7 +19,7 @@
     "**/*.jsx",
     "**/*.js"
   ],
-  "exclude": ["cypress"],
+  "exclude": ["src/main/test/cypress"],
   "rules": {
     "no-unused-vars": "off",
   },
