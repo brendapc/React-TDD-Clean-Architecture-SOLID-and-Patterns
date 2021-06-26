@@ -95,6 +95,18 @@ describe('Login', () => {
     cy.getByTestId('submit-button').dblclick()
     cy.get('@request.all').should('have.length', 1)
   })
+  it('should prevent submit on empty field', () => {
+    cy.route({
+      method: 'POST',
+      url: /login/,
+      status: 200,
+      response: {
+        accessToken: faker.random.words()
+      }
+    }).as('request')
+    cy.getByTestId('email').focus().type(faker.internet.email()).type('{enter}')
+    cy.get('@request.all').should('have.length', 0)
+  })
   it('should submit on press enter', () => {
     cy.route({
       method: 'POST',
