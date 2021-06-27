@@ -72,10 +72,10 @@ export const Signup: React.FC<Props> = ({ validation, addAccount, saveAccessToke
         <Context.Provider value={{ formState, setFormState }}>
           <form className={Styles.form} data-testid="login-form" onSubmit={handleSubmit} >
             <h2>Cadastro</h2>
-            <Input type="text" name="username" placeholder="Digite seu nome" />
-            <Input type="email" name="email" placeholder="Digite seu e-mail" />
-            <Input type="password" name="password" placeholder="Digite sua senha" />
-            <Input type="password" name="passwordConfirmation" placeholder="Confirme sua senha" />
+            <Input type="text" name="username" data-testid="username" placeholder="Digite seu nome" />
+            <Input type="email" name="email" data-testid="email" placeholder="Digite seu e-mail" />
+            <Input type="password" name="password" data-testid="password" placeholder="Digite sua senha" />
+            <Input type="password" name="passwordConfirmation" data-testid="passwordConfirmation" placeholder="Confirme sua senha" />
             <SubmitButton text="Cadastrar" />
             <Link data-testid="login-link" replace to="/login" className={Styles.link}>Voltar para login</Link>
             <FormStatus />
