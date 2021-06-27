@@ -61,4 +61,11 @@ describe('Login', () => {
     FormHelper.testMainError('Esse email já está em uso')
     FormHelper.testUrl('/signup')
   })
+
+  it('should present Unexpected error on default error cases', () => {
+    HttpHelper.mockUnexpectedError()
+    simulateValidSubmit()
+    FormHelper.testMainError('Algo de errado aconteceu. Tente novamente')
+    FormHelper.testUrl('/signup')
+  })
 })
