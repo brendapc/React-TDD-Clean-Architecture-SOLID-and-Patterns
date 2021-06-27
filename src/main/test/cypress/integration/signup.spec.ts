@@ -2,12 +2,15 @@ import faker from 'faker'
 import * as FormHelper from '../support/formHelper'
 import * as HttpHelper from '../support/signupMocks'
 
-const simulateValidSubmit = (): void => {
+const populateFields = (): void => {
   cy.getByTestId('username').focus().type(faker.name.findName())
   cy.getByTestId('email').focus().type(faker.internet.email())
   const password = faker.random.alphaNumeric(5)
   cy.getByTestId('password').focus().type(password)
   cy.getByTestId('passwordConfirmation').focus().type(password)
+}
+const simulateValidSubmit = (): void => {
+  populateFields()
   cy.getByTestId('submit-button').click()
 }
 
@@ -81,5 +84,27 @@ describe('Login', () => {
     simulateValidSubmit()
     cy.window().then(window => assert.isOk(window.localStorage.getItem('accessToken')))
     FormHelper.testUrl('/')
+  })
+
+  it('should prevent multiple submits', () => {
+    HttpHelper.mockOkRequest()
+    populateFields()
+    cy.getByTestId('submit-button').dblclick()
+    cy.get('@request.all').should('have.length', 1)
+  })
+
+  it('should prevent submit on empty field', () => {
+    HttpHelper.mockOkRequest()
+    cy.getByTestId('email').focus().type(faker.internet.email()).type('{enter}')
+    cy.get('@request.all').should('have.length', 0)
+  })
+
+  it('should submit on press enter', () => {
+    HttpHelper.mockOkRequest()
+    cy.getByTestId('username').focus().type(faker.name.findName())
+    cy.getByTestId('email').focus().type(faker.internet.email())
+    const password = faker.random.alphaNumeric(5)
+    cy.getByTestId('password').focus().type(password)
+    cy.getByTestId('passwordConfirmation').focus().type(password).type('{enter}')
   })
 })
