@@ -31,6 +31,6 @@ describe('Required Field Validation', () => {
       [field]: value,
       [fieldToCompare]: value
     })
-    expect(error).toBeFalsy()
+    expect(error).toBeNull()
   })
 })
