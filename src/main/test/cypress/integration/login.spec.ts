@@ -56,6 +56,7 @@ describe('Login', () => {
     cy.url().should('eq', `${baseUrl}/`)
     cy.window().then(window => assert.isOk(window.localStorage.getItem('accessToken')))
   })
+
   it('should present Unexpected error on default error cases', () => {
     Helper.mockUnexpectedError()
     cy.getByTestId('email').focus().type(faker.internet.email())
@@ -89,6 +90,7 @@ describe('Login', () => {
     cy.getByTestId('email').focus().type(faker.internet.email()).type('{enter}')
     cy.get('@request.all').should('have.length', 0)
   })
+
   it('should submit on press enter', () => {
     Helper.mockOkRequest()
     cy.getByTestId('email').focus().type(faker.internet.email())
