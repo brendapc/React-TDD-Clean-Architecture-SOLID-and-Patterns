@@ -75,4 +75,11 @@ describe('Login', () => {
     FormHelper.testMainError('Algo de errado aconteceu. Tente novamente')
     FormHelper.testUrl('/signup')
   })
+
+  it('should save access token if valid credentials are provided', () => {
+    HttpHelper.mockOkRequest()
+    simulateValidSubmit()
+    cy.window().then(window => assert.isOk(window.localStorage.getItem('accessToken')))
+    FormHelper.testUrl('/')
+  })
 })
