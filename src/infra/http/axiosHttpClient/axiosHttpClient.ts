@@ -2,9 +2,9 @@ import { IHttpPostClient, IHttpPostParams, IHttpResponse } from '@/data/protocol
 import axios, { AxiosResponse } from 'axios'
 
 // Design Pattern: Adapter
-export class AxiosHttpClient implements IHttpPostClient<any, any> {
-  async post (params: IHttpPostParams<any>): Promise<IHttpResponse<any>> {
-    let httpResponse: AxiosResponse<any>
+export class AxiosHttpClient implements IHttpPostClient {
+  async post (params: IHttpPostParams): Promise<IHttpResponse> {
+    let httpResponse: AxiosResponse
     try {
       httpResponse = await axios.post(params.url, params.body)
     } catch (err) {

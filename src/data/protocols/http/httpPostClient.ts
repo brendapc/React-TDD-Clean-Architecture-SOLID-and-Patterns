@@ -1,10 +1,10 @@
 import { IHttpResponse } from '.'
 
 /* eslint-disable @typescript-eslint/ban-types */
-export type IHttpPostParams<T> ={
+export type IHttpPostParams<> ={
   url: string
-  body?: T
+  body?: any
 }
-export interface IHttpPostClient<T, R> {
-  post: (params: IHttpPostParams<T>) => Promise<IHttpResponse<R>>
+export interface IHttpPostClient<ResponseType = any> {
+  post: (params: IHttpPostParams) => Promise<IHttpResponse<ResponseType>>
 }

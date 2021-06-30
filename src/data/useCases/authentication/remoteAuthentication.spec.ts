@@ -9,11 +9,11 @@ import { IAccountModel } from '@/domain/models/'
 
 type SutTypes = {
   sut: RemoteAuthentication
-  httpPostClientSpy: HttpPostClientSpy<AuthenticationParams, IAccountModel>
+  httpPostClientSpy: HttpPostClientSpy<IAccountModel>
 }
 
 const makeSystemUnderTest = (url: string = faker.internet.url()): SutTypes => {
-  const httpPostClientSpy = new HttpPostClientSpy<AuthenticationParams, IAccountModel>()
+  const httpPostClientSpy = new HttpPostClientSpy<IAccountModel>()
   const sut = new RemoteAuthentication(url, httpPostClientSpy)
   return {
     sut,
