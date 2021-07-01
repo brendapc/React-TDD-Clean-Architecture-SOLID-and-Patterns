@@ -1,5 +1,5 @@
 import { ILoadSurveyList } from '@/domain/useCases/loadSurveyList'
-import { HttpStatusCode, IHttpGetClient, IHttpResponse } from '@/data/protocols/http'
+import { HttpStatusCode, IHttpGetClient } from '@/data/protocols/http'
 import { UnexpectedError } from '@/domain/errors'
 import { ISurveyModel } from '@/domain/models'
 
@@ -11,6 +11,7 @@ export class RemoteLoadSurveyList implements ILoadSurveyList {
     const httpResponse = await this.httpGetClient.get({ url: this.url })
     switch (httpResponse.statusCode) {
       case HttpStatusCode.okRequest: return httpResponse.body
+      case HttpStatusCode.noContent: return []
       default: throw new UnexpectedError()
     }
   }
