@@ -1,7 +1,9 @@
+import { IHttpResponse } from '.'
+
 export interface IHttpGetParams{
   url: string
 }
 
-export interface IHttpGetClient {
-  get: (params: IHttpGetParams) => Promise<void>
+export interface IHttpGetClient<ResponseType = any> {
+  get: (params: IHttpGetParams) => Promise<IHttpResponse<ResponseType>>
 }
