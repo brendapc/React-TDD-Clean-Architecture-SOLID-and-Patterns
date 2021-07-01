@@ -3,6 +3,7 @@ import { HttpGetClientSpy } from '@/data/mocks'
 import { RemoteLoadSurveyList } from './loadRemoteSurveyList'
 import { HttpStatusCode } from '@/data/protocols/http'
 import { UnexpectedError } from '@/domain/errors'
+import { mockSurveyListModel } from '@/domain/mocks'
 import { ISurveyModel } from '@/domain/models'
 
 type SutTypes = {
@@ -44,6 +45,7 @@ describe('Remote Load Survey List', () => {
     const promise = sut.loadAll()
     await expect(promise).rejects.toThrow(new UnexpectedError())
   })
+
   test('should throw UnexpectedError if HttpGetClient returns 500', async () => {
     const { sut, httpGetClientSpy } = makeSystemUnderTest()
     httpGetClientSpy.response = {
@@ -51,5 +53,16 @@ describe('Remote Load Survey List', () => {
     }
     const promise = sut.loadAll()
     await expect(promise).rejects.toThrow(new UnexpectedError())
+  })
+
+  test('should return a list of SurveyModels if HttpGetClient returns 200', async () => {
+    const { sut, httpGetClientSpy } = makeSystemUnderTest()
+    const httpResult = mockSurveyListModel()
+    httpGetClientSpy.response = {
+      statusCode: HttpStatusCode.okRequest,
+      body: httpResult
+    }
+    const surbeyList = await sut.loadAll()
+    expect(surbeyList).toEqual(httpResult)
   })
 })
