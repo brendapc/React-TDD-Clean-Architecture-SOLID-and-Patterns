@@ -40,7 +40,7 @@ describe('AxiosHttpClient', () => {
       })
     })
 
-    test('should return correct statusCode and body on failure', () => {
+    test('should return correct statusCode and body on POST failure', () => {
       const httpRequest = mockPostRequest()
       const { sut, mockedAxios } = makeSystemUnderTest()
       mockedAxios.post.mockRejectedValueOnce({
@@ -67,6 +67,15 @@ describe('AxiosHttpClient', () => {
         statusCode: axiosHttpResponse.status,
         body: axiosHttpResponse.data
       })
+    })
+    test('should return correct statusCode and body on GET failure', () => {
+      const httpRequest = mockGetRequest()
+      const { sut, mockedAxios } = makeSystemUnderTest()
+      mockedAxios.get.mockRejectedValueOnce({
+        response: mockHttpResponse()
+      })
+      const promise = sut.get(httpRequest)
+      expect(promise).toEqual(mockedAxios.get.mock.results[0].value)
     })
   })
 })
