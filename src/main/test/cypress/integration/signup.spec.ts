@@ -14,7 +14,7 @@ const simulateValidSubmit = (): void => {
   cy.getByTestId('submit-button').click()
 }
 
-describe('Login', () => {
+describe('SignUp', () => {
   beforeEach(() => {
     cy.visit('signup')
   })
@@ -79,10 +79,10 @@ describe('Login', () => {
     FormHelper.testUrl('/signup')
   })
 
-  it('should save access token if valid credentials are provided', () => {
+  it('should save account if valid credentials are provided', () => {
     HttpHelper.mockOkRequest()
     simulateValidSubmit()
-    cy.window().then(window => assert.isOk(window.localStorage.getItem('accessToken')))
+    cy.window().then(window => assert.isOk(window.localStorage.getItem('account')))
     FormHelper.testUrl('/')
   })
 

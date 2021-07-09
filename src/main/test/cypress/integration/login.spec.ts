@@ -46,7 +46,7 @@ describe('Login', () => {
     cy.url().should('eq', `${baseUrl}/login`)
   })
 
-  it('should save access token if valid credentials are provided', () => {
+  it('should save account if valid credentials are provided', () => {
     HttpHelper.mockOkRequest()
     cy.getByTestId('email').focus().type(faker.internet.email())
     cy.getByTestId('password').focus().type(faker.random.alphaNumeric(5))
@@ -54,7 +54,7 @@ describe('Login', () => {
     cy.getByTestId('spinner').should('not.exist')
     cy.getByTestId('main-error').should('not.exist')
     cy.url().should('eq', `${baseUrl}/`)
-    cy.window().then(window => assert.isOk(window.localStorage.getItem('accessToken')))
+    cy.window().then(window => assert.isOk(window.localStorage.getItem('account')))
   })
 
   it('should present Unexpected error on default error cases', () => {
