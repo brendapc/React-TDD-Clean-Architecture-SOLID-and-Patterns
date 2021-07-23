@@ -1,18 +1,33 @@
-import { IHttpPostClient, IHttpPostParams, IHttpResponse } from '@/data/protocols/http'
+import { IHttpGetClient, IHttpGetParams, IHttpPostClient, IHttpPostParams, IHttpResponse } from '@/data/protocols/http'
 import axios, { AxiosResponse } from 'axios'
 
 // Design Pattern: Adapter
-export class AxiosHttpClient implements IHttpPostClient<any, any> {
-  async post (params: IHttpPostParams<any>): Promise<IHttpResponse<any>> {
-    let httpResponse: AxiosResponse<any>
+export class AxiosHttpClient implements IHttpPostClient, IHttpGetClient {
+  async post (params: IHttpPostParams): Promise<IHttpResponse> {
+    let axiosHttpResponse: AxiosResponse
     try {
-      httpResponse = await axios.post(params.url, params.body)
+      axiosHttpResponse = await axios.post(params.url, params.body)
     } catch (err) {
-      httpResponse = err.response
+      axiosHttpResponse = err.response
     }
+    return this.adapt(axiosHttpResponse)
+  }
+
+  async get (params: IHttpGetParams): Promise<IHttpResponse> {
+    let axiosHttpResponse
+    try {
+      axiosHttpResponse = await axios.get(params.url)
+    } catch (err) {
+      axiosHttpResponse = err.response
+    }
+
+    return this.adapt(axiosHttpResponse)
+  }
+
+  private adapt (axiosHttpResponse: AxiosResponse): IHttpResponse {
     return {
-      statusCode: httpResponse.status,
-      body: httpResponse.data
+      statusCode: axiosHttpResponse.status,
+      body: axiosHttpResponse.data
     }
   }
 }

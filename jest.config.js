@@ -6,7 +6,6 @@ module.exports = {
     "!<rootDir>/src/domain/**/*", 
     "!<rootDir>/src/presentation/**/index.ts", 
     "!**/*.d.ts",
-    "!<rootDir>/src/presentation/components/router/**/*"
   ],
   coverageDirectory: "coverage",
   testPathIgnorePatterns: ["<rootDir>/node_modules/", "<rootDir>/src/main/test/cypress/"],

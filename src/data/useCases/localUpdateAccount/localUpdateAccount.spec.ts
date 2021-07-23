@@ -1,39 +1,39 @@
 
 import faker from 'faker'
-import { ISaveAccessToken } from '@/domain/useCases/saveAccessToken'
-import { LocalSaveAccessToken } from './localSaveAccessToken'
+import { LocalUpdateAccount } from './localUpdateAccount'
 import { SetStorageMock } from '@/data/mocks'
 import { UnexpectedError } from '@/domain/errors'
+import { mockAccountModel } from '@/domain/mocks'
 
 type ISutTypes = {
   setStorageMock: SetStorageMock
-  sut: LocalSaveAccessToken
+  sut: LocalUpdateAccount
 }
 
 const makeSystemUnderTest = (): ISutTypes => {
   const setStorageMock = new SetStorageMock()
 
-  const sut = new LocalSaveAccessToken(setStorageMock)
+  const sut = new LocalUpdateAccount(setStorageMock)
 
   return {
     sut,
     setStorageMock
   }
 }
-describe('LocalSaveAccessToken', () => {
+describe('LocalUpdateAccount', () => {
   test('should call SetStorage with correct value', async () => {
     const { sut, setStorageMock } = makeSystemUnderTest()
-    const accessToken = faker.datatype.uuid()
-    await sut.save(accessToken)
-    expect(setStorageMock.key).toBe('accessToken')
-    expect(setStorageMock.value).toBe(accessToken)
+    const account = mockAccountModel()
+    await sut.save(account)
+    expect(setStorageMock.key).toBe('account')
+    expect(setStorageMock.value).toBe(JSON.stringify(account))
   })
 
   test('should throw if SetStorage throws', async () => {
     const { sut, setStorageMock } = makeSystemUnderTest()
-    jest.spyOn(setStorageMock, 'set').mockRejectedValueOnce(new Error())
-    const accessToken = faker.datatype.uuid()
-    const promise = sut.save(accessToken)
+    jest.spyOn(setStorageMock, 'set').mockImplementationOnce(() => { throw new Error() })
+    const account = mockAccountModel()
+    const promise = sut.save(account)
     await expect(promise).rejects.toThrow()
   })
 

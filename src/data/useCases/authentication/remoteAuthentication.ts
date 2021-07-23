@@ -6,7 +6,7 @@ import { IAccountModel } from '@/domain/models/'
 export class RemoteAuthentication implements IAuthentication {
   constructor (
     private readonly url: string,
-    private readonly httpPostClient: IHttpPostClient<AuthenticationParams, IAccountModel>
+    private readonly httpPostClient: IHttpPostClient<IAccountModel>
   ) {}
 
   async auth (params: AuthenticationParams): Promise<IAccountModel> {
