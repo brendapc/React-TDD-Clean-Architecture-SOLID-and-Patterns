@@ -53,8 +53,9 @@ describe('Signup compoenent', () => {
   test('should mount components with inital state', () => {
     const validationError = faker.random.words()
     makeSystemUnderTest({ validationError })
-    Helper.testChildCount('error-wrap', 0)
-    Helper.testButtonIsDisabled('submit-button', true)
+    expect(screen.getByTestId('error-wrap').children).toHaveLength(0)
+    expect(screen.getByTestId('submit-button')).toBeDisabled()
+
     Helper.testStatusForField('username', validationError)
     Helper.testStatusForField('email', validationError)
     Helper.testStatusForField('password', validationError)
@@ -113,13 +114,15 @@ describe('Signup compoenent', () => {
     Helper.populateField('email')
     Helper.populateField('password')
     Helper.populateField('passwordConfirmation')
-    Helper.testButtonIsDisabled('submit-button',false)
+    expect(screen.getByTestId('submit-button')).toBeEnabled()
+
   })
 
   test('should show spinner f form is valid', async () => {
     makeSystemUnderTest()
     await simulateValidSubmit()
-    Helper.testElementExists( 'spinner')
+    expect(screen.queryByTestId('spinner')).toBeInTheDocument()
+
   })
 
   test('should call AddAccount with correct values', async () => {
@@ -152,8 +155,9 @@ describe('Signup compoenent', () => {
     const error = new EmailInUseError()
     jest.spyOn(addAccountSpy, 'add').mockRejectedValueOnce(error)
     await simulateValidSubmit()
-    Helper.testElementText('main-error', error.message)
-    Helper.testChildCount('error-wrap', 1)
+    expect(screen.getByTestId('error-wrap').children).toHaveLength(1)
+
+    expect(screen.getByTestId('main-error')).toHaveTextContent(error.message)
   })
 
   test('should call setCurrentAccount with correct value', async () => {

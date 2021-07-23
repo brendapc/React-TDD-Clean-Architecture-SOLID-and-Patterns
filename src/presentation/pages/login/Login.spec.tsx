@@ -51,8 +51,8 @@ describe('Login compoenent', () => {
   test('should mount components with inital state', () => {
     const validationError = faker.random.words()
     makeSystemUnderTest({ validationError })
-    Helper.testChildCount( 'error-wrap',0)
-    Helper.testButtonIsDisabled('submit-button', true)
+    expect(screen.getByTestId('error-wrap').children).toHaveLength(0)
+    expect(screen.getByTestId('submit-button')).toBeDisabled()
     Helper.testStatusForField( 'email', validationError)
     Helper.testStatusForField( 'password', validationError)
   })
@@ -87,7 +87,8 @@ describe('Login compoenent', () => {
     makeSystemUnderTest()
     Helper.populateField( 'email')
     Helper.populateField( 'password')
-    Helper.testButtonIsDisabled('submit-button', false)
+    expect(screen.getByTestId('submit-button')).toBeEnabled()
+
   })
 
   test('should show spinner on submit', async () => {
@@ -127,8 +128,8 @@ describe('Login compoenent', () => {
     const error = new InvalidCredentialsError()
     jest.spyOn(authenticationSpy, 'auth').mockReturnValueOnce(Promise.reject(error))
     await simulateValidSubmit()
-    Helper.testElementText( 'main-error', error.message)
-    Helper.testChildCount( 'error-wrap', 1)
+    expect(screen.getByTestId('main-error')).toHaveTextContent(error.message)
+    expect(screen.getByTestId('error-wrap').children).toHaveLength(1)
   })
 
   test('should call  setCurrentAccount with correct value', async () => {
