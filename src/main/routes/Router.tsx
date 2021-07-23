@@ -4,8 +4,14 @@ import { SurveyList } from '@/presentation/pages/surveyList/SurveyList'
 import { makeLoginPage } from '@/main/factories/pages/login/loginPageFactory'
 import { makeSignupPage } from '@/main/factories/pages/signup/signupPageFactory'
 
+import { ApiContext } from '@/presentation/contexts'
+import { setCurrentAccountAdapter } from '@/main/adapters/currentAccountAdapter'
+
 export const Router: React.FC = () => {
   return (
+    <ApiContext.Provider value={{
+      setCurrentAccount: setCurrentAccountAdapter
+    }}>
     <BrowserRouter>
       <Switch>
         <Route path="/login" exact component={makeLoginPage} />
@@ -13,5 +19,7 @@ export const Router: React.FC = () => {
         <Route path="/" exact component={SurveyList} />
       </Switch>
     </BrowserRouter>
+    </ApiContext.Provider>
+
   )
 }

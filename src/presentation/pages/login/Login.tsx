@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { Footer, LoginHeader } from '@/presentation/components/layout'
 import { Input, FormStatus } from '@/presentation/components/utils'
 import Styles from './login-styles.scss'
-import Context from '../../contexts/form/FormContext'
+import { FormContext, ApiContext } from '../../contexts'
 import { IValidation } from '../../protocols/validation'
-import { IAuthentication, IUpdateAccount } from '@/domain/useCases'
+import { IAuthentication } from '@/domain/useCases'
 
 type Props = {
   validation: IValidation
   authentication: IAuthentication
-  updateAccount: IUpdateAccount
 }
 
-export const Login: React.FC<Props> = ({ validation, authentication,updateAccount }: Props) => {
+export const Login: React.FC<Props> = ({ validation, authentication }: Props) => {
+  const { setCurrentAccount } = useContext(ApiContext)
   const history = useHistory()
 
   const [formState, setFormState] = useState({
@@ -44,7 +44,7 @@ export const Login: React.FC<Props> = ({ validation, authentication,updateAccoun
 
       const account = await authentication.auth({ email: formState.email, password: formState.password })
 
-      await updateAccount.save(account)
+      setCurrentAccount(account)
 
       history.replace('/')
     } catch (err) {
@@ -59,7 +59,7 @@ export const Login: React.FC<Props> = ({ validation, authentication,updateAccoun
   return (
     <div className={Styles.login}>
       <LoginHeader />
-      <Context.Provider value={{ formState, setFormState }}>
+      <FormContext.Provider value={{ formState, setFormState }}>
         <form data-testid="login-form" className={Styles.form} onSubmit={handleSubmit}>
           <h2>Login</h2>
           <Input type="email" name="email" placeholder="Digite seu e-mail" />
@@ -68,7 +68,7 @@ export const Login: React.FC<Props> = ({ validation, authentication,updateAccoun
           <Link to="/signup" data-testid="signup" className={Styles.link}>Criar conta</Link>
           <FormStatus />
         </form>
-      </Context.Provider>
+      </FormContext.Provider>
       <Footer />
     </div>
   )
