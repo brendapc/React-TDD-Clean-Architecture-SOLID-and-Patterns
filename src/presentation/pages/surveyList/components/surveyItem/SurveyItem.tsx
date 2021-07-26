@@ -1,11 +1,11 @@
-import React from "react";
-import Styles from "./surveyItem.styles.scss";
-import { IconName, ThumbsIcons } from "@/presentation/components/utils";
-import { ISurveyModel } from "@/domain/models";
+import React from 'react'
+import Styles from './surveyItem.styles.scss'
+import { IconName, ThumbsIcons } from '@/presentation/components/utils'
+import { ISurveyModel } from '@/domain/models'
 
 type Props = {
-  survey: ISurveyModel;
-};
+  survey: ISurveyModel
+}
 export const SurveyItem: React.FC<Props> = ({ survey }: Props) => {
   return (
     <li className={Styles.surveyItemWrap}>
@@ -23,5 +23,5 @@ export const SurveyItem: React.FC<Props> = ({ survey }: Props) => {
       </div>
       <footer>Ver resultado</footer>
     </li>
-  );
-};
+  )
+}
