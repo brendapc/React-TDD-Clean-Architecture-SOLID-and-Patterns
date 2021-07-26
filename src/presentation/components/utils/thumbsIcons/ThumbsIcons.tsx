@@ -16,7 +16,7 @@ export const ThumbsIcons: React.FC<Props> = ({ className, iconName }: Props) => 
 
   return (
     <div className={[Styles.iconWrapper, iconColor, className].join(' ')}>
-        <img className={Styles.thumbsDownIcon} src={iconName} alt="" />
+        <img data-testid="thumbs-icon" className={Styles.thumbsDownIcon} src={iconName} alt="" />
     </div>
   )
 }
