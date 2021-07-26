@@ -37,7 +37,7 @@ const makeSystemUnderTest = (params?: SutParams): SutTypes => {
   }
 }
 
-const simulateValidSubmit = async ( email = faker.internet.email(), password = faker.internet.password()): Promise<void> => {
+const simulateValidSubmit = async (email = faker.internet.email(), password = faker.internet.password()): Promise<void> => {
   Helper.populateField('email', email)
   Helper.populateField('password', password)
   const form = screen.getByTestId('login-form')
@@ -53,42 +53,41 @@ describe('Login compoenent', () => {
     makeSystemUnderTest({ validationError })
     expect(screen.getByTestId('error-wrap').children).toHaveLength(0)
     expect(screen.getByTestId('submit-button')).toBeDisabled()
-    Helper.testStatusForField( 'email', validationError)
-    Helper.testStatusForField( 'password', validationError)
+    Helper.testStatusForField('email', validationError)
+    Helper.testStatusForField('password', validationError)
   })
 
   test('should show email error if validation fails', () => {
     const validationError = faker.random.words()
     makeSystemUnderTest({ validationError })
-    Helper.populateField( 'email')
-    Helper.testStatusForField( 'email', validationError)
+    Helper.populateField('email')
+    Helper.testStatusForField('email', validationError)
   })
 
   test('should show password error if Validation fails', () => {
     const validationError = faker.random.words()
     makeSystemUnderTest({ validationError })
-    Helper.populateField( 'password')
-    Helper.testStatusForField( 'password', validationError)
+    Helper.populateField('password')
+    Helper.testStatusForField('password', validationError)
   })
 
   test('should show valid status if email validation succeeds', () => {
     makeSystemUnderTest()
-    Helper.populateField( 'email')
-    Helper.testStatusForField( 'email')
+    Helper.populateField('email')
+    Helper.testStatusForField('email')
   })
 
   test('should show valid status if password validation succeeds', () => {
     makeSystemUnderTest()
-    Helper.populateField( 'password')
-    Helper.testStatusForField( 'password')
+    Helper.populateField('password')
+    Helper.testStatusForField('password')
   })
 
   test('should enable submit button if form values are valid', () => {
     makeSystemUnderTest()
-    Helper.populateField( 'email')
-    Helper.populateField( 'password')
+    Helper.populateField('email')
+    Helper.populateField('password')
     expect(screen.getByTestId('submit-button')).toBeEnabled()
-
   })
 
   test('should show spinner on submit', async () => {
@@ -118,7 +117,7 @@ describe('Login compoenent', () => {
   test('should not call Authentication if form values are invalid', () => {
     const validationError = faker.random.words()
     const { authenticationSpy } = makeSystemUnderTest({ validationError })
-    Helper.populateField( 'email')
+    Helper.populateField('email')
     fireEvent.submit(screen.getByTestId('login-form'))
     expect(authenticationSpy.callsCount).toBe(0)
   })

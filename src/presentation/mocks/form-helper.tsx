@@ -14,4 +14,3 @@ export const populateField = (fieldName: string, value = faker.random.word()): v
   const input = screen.getByTestId(fieldName)
   fireEvent.input(input, { target: { value } })
 }
-

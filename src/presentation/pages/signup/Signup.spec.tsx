@@ -37,9 +37,9 @@ const makeSystemUnderTest = (params?: SutParams): SutTypes => {
     setCurrentAccountMock
   }
 }
-export const simulateValidSubmit = async ( username = faker.internet.userName(), email = faker.internet.email(), password = faker.internet.password()): Promise<void> => {
-  Helper.populateField( 'username', username)
-  Helper.populateField( 'email', email)
+export const simulateValidSubmit = async (username = faker.internet.userName(), email = faker.internet.email(), password = faker.internet.password()): Promise<void> => {
+  Helper.populateField('username', username)
+  Helper.populateField('email', email)
   Helper.populateField('password', password)
   Helper.populateField('passwordConfirmation', password)
   const form = screen.getByTestId('login-form')
@@ -115,14 +115,12 @@ describe('Signup compoenent', () => {
     Helper.populateField('password')
     Helper.populateField('passwordConfirmation')
     expect(screen.getByTestId('submit-button')).toBeEnabled()
-
   })
 
   test('should show spinner f form is valid', async () => {
     makeSystemUnderTest()
     await simulateValidSubmit()
     expect(screen.queryByTestId('spinner')).toBeInTheDocument()
-
   })
 
   test('should call AddAccount with correct values', async () => {
@@ -130,7 +128,7 @@ describe('Signup compoenent', () => {
     const username = faker.internet.userName()
     const email = faker.internet.email()
     const password = faker.internet.password()
-    await simulateValidSubmit( username, email, password)
+    await simulateValidSubmit(username, email, password)
     expect(addAccountSpy.params).toEqual({
       username, email, password, passwordConfirmation: password
     })
