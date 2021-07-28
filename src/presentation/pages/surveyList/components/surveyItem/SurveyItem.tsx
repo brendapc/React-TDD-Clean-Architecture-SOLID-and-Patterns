@@ -27,5 +27,6 @@ export const SurveyItem: React.FC<Props> = ({ survey }: Props) => {
       </div>
       <footer>Ver resultado</footer>
     </li>
+
   )
 }
