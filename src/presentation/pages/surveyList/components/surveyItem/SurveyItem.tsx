@@ -15,11 +15,17 @@ export const SurveyItem: React.FC<Props> = ({ survey }: Props) => {
           iconName={IconName.thumbsUp}
         />
         <time>
-          <span className={Styles.day}>05</span>
-          <span className={Styles.month}>07</span>
-          <span className={Styles.year}>2021</span>
+          <span data-testid="day" className={Styles.day}>
+            {survey.date.getDate()}
+          </span>
+          <span data-testid="month" className={Styles.month}>
+            {survey.date.toLocaleString('pt-BR', { month: 'short' })}
+          </span>
+          <span data-testid="year" className={Styles.year}>
+            {survey.date.getFullYear()}
+          </span>
         </time>
-        <p>Qual é seu framework preferido?</p>
+        <p data-testid="question">{survey.question}</p>
       </div>
       <footer>Ver resultado</footer>
     </li>

@@ -1,7 +1,7 @@
 import { ILoadSurveyList } from '@/domain/useCases'
 import { Footer, LoggedInHeader } from '@/presentation/components/layout'
 import React, { useEffect } from 'react'
-import { SurveyItemEmpty } from './components'
+import { SurveyItem, SurveyItemEmpty } from './components'
 import Styles from './surveyList.styles.scss'
 
 type Props = {
@@ -16,18 +16,18 @@ export const SurveyList: React.FC<Props> = ({ loadSurveyList }: Props) => {
   }, [])
 
   return (
-        <div className={Styles.surveyListWrapper}>
-            <LoggedInHeader />
-            <div className={Styles.contentWrapper}>
-                <h2>Enquetes</h2>
-                <ul data-testid="survey-list">
-                    <SurveyItemEmpty />
-                    <SurveyItemEmpty />
-                    <SurveyItemEmpty />
-                    <SurveyItemEmpty />
-                </ul>
-            </div>
-            <Footer />
-        </div>
+    <div className={Styles.surveyListWrapper}>
+      <LoggedInHeader />
+      <div className={Styles.contentWrapper}>
+        <h2>Enquetes</h2>
+        <ul data-testid="survey-list">
+          <SurveyItemEmpty />
+          <SurveyItemEmpty />
+          <SurveyItemEmpty />
+          <SurveyItemEmpty />
+        </ul>
+      </div>
+      <Footer />
+    </div>
   )
 }
