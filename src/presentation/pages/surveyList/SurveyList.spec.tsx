@@ -31,6 +31,7 @@ describe('SurveyList Component', () => {
     makeSystemUnderTest()
     const surveyList = screen.getByTestId('survey-list')
     expect(surveyList.querySelectorAll('li:empty').length).toBe(4)
+    expect(screen.queryByTestId('error')).not.toBeInTheDocument()
     await waitFor(() => surveyList)
   })
 
@@ -45,6 +46,7 @@ describe('SurveyList Component', () => {
     const surveyList = screen.getByTestId('survey-list')
     await waitFor(() => surveyList)
     expect(surveyList.querySelectorAll('li.surveyItemWrap').length).toBe(3)
+    expect(screen.queryByTestId('error')).not.toBeInTheDocument()
   })
   test('should render error on failure', async () => {
     const loadSurveyListSpy = new LoadSurveyListSpy()
