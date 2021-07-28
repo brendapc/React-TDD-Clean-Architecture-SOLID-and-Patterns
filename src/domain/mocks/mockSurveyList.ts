@@ -20,6 +20,5 @@ export const mockSurveyModel = (): ISurveyModel => ({
 export const mockSurveyListModel = (): ISurveyModel[] => [
   mockSurveyModel(),
   mockSurveyModel(),
-  mockSurveyModel(),
   mockSurveyModel()
 ]
