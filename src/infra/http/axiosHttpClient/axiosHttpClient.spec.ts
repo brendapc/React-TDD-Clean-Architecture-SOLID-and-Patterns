@@ -1,8 +1,6 @@
-import { AxiosHttpClient } from './axiosHttpClient'
-import faker from 'faker'
-import { IHttpPostParams } from '@/data/protocols/http'
-import { mockAxios } from '@/infra/mocks'
 import axios from 'axios'
+import { AxiosHttpClient } from './axiosHttpClient'
+import { mockAxios } from '@/infra/mocks'
 import { mockGetRequest, mockPostRequest } from '@/data/mocks/'
 import { mockHttpResponse } from '../../mocks/mockAxios'
 
@@ -55,7 +53,7 @@ describe('AxiosHttpClient', () => {
       const httpRequest = mockGetRequest()
       const { sut, mockedAxios } = makeSystemUnderTest()
       await sut.get(httpRequest)
-      expect(mockedAxios.get).toHaveBeenCalledWith(httpRequest.url)
+      expect(mockedAxios.get).toHaveBeenCalledWith(httpRequest.url, { headers: httpRequest.headers })
     })
 
     test('should return the correct statusCode and body on GET',async () => {
