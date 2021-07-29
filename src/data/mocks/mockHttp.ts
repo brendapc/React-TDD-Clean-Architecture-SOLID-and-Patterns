@@ -1,7 +1,7 @@
 import faker from 'faker'
 import { IHttpPostClient, IHttpPostParams, HttpStatusCode, IHttpResponse, IHttpGetClient, IHttpGetParams } from '@/data/protocols/http'
 
-export class HttpPostClientSpy<ResponseType> implements IHttpPostClient<ResponseType> {
+export class HttpPostClientSpy<ResponseType = any> implements IHttpPostClient<ResponseType> {
   url?: string
   body?: any
   httpResponse: IHttpResponse<ResponseType> = {
@@ -26,14 +26,16 @@ export const mockGetRequest = (): IHttpGetParams => ({
   headers: faker.random.objectElement()
 })
 
-export class HttpGetClientSpy<ResponseType> implements IHttpGetClient<ResponseType> {
+export class HttpGetClientSpy<ResponseType = any> implements IHttpGetClient<ResponseType> {
   url: string
+  headers?: any
   response: IHttpResponse<ResponseType> = {
     statusCode: HttpStatusCode.okRequest
   }
 
   async get (params: IHttpGetParams): Promise<IHttpResponse<ResponseType>> {
     this.url = params.url
+    this.headers = params.headers
     return this.response
   }
 }
