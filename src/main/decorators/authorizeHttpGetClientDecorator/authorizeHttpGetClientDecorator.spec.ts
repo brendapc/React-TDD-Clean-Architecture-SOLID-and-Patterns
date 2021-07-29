@@ -67,5 +67,10 @@ describe('Authorize Http Get Client Decorator',  () => {
 
         })
     })
+    test('should return the same result as HttpGetClient', async () => {
+        const { sut, httpGetClientSpy} = makeSystemUnderTest()
+        const httpResponse = await sut.get(mockGetRequest())
+        expect(httpResponse).toEqual(httpGetClientSpy.response)
+    })
     
 })
