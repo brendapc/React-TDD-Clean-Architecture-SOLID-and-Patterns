@@ -1,2 +1,1 @@
-export {default as SurveyContext} './context/SurveyContext'
-
+export { default as SurveyContext } from './context/SurveyContext'
