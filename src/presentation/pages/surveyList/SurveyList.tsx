@@ -13,13 +13,14 @@ type Props = {
 export const SurveyList: React.FC<Props> = ({ loadSurveyList }: Props) => {
   const [state, setState] = useState({
     surveys: [] as ISurveyModel[],
-    error: ''
+    error: '',
+    reload: false
   })
   useEffect(() => {
     (async function () {
       await loadSurveyList.loadAll().then(surveys => setState({ ...state, surveys })).catch(error => setState({ ...state, error: error.message }))
     })()
-  }, [])
+  }, [state.reload])
 
   return (
     <div className={Styles.surveyListWrapper}>
