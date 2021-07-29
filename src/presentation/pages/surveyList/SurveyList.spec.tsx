@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen, waitFor } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { SurveyList } from './SurveyList'
 import { ISurveyModel } from '@/domain/models'
 import { ILoadSurveyList } from '@/domain/useCases'
@@ -50,11 +50,11 @@ describe('SurveyList Component', () => {
   })
   test('should render error on failure', async () => {
     const loadSurveyListSpy = new LoadSurveyListSpy()
-    const error = new UnexpectedError()
-    jest.spyOn(loadSurveyListSpy, 'loadAll').mockRejectedValueOnce(error)
+    jest.spyOn(loadSurveyListSpy, 'loadAll').mockRejectedValueOnce(new UnexpectedError())
     makeSystemUnderTest(loadSurveyListSpy)
     await waitFor(() => screen.getByRole('heading'))
-    expect(screen.queryByTestId('survey-list')).not.toBeInTheDocument()
-    expect(screen.queryByTestId('error')).toHaveTextContent(error.message)
+    fireEvent.click(screen.getByTestId('reload-button'))
+    expect(loadSurveyListSpy.callsCount).toBe(1)
+    await waitFor(() => screen.getByRole('heading'))
   })
 })
