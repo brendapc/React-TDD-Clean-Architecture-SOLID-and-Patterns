@@ -3,10 +3,14 @@ import { IHttpGetClient, IHttpGetParams, IHttpResponse } from "@/data/protocols/
 
 export class AuthorizeHttpGetClientDecorator implements IHttpGetClient{
 
-    constructor(private readonly getStorage: IGetStorage){}
+    constructor(
+        private readonly getStorage: IGetStorage,
+        private readonly httpGetClient: IHttpGetClient
+        ){}
 
     async get(params: IHttpGetParams): Promise<IHttpResponse>{
         this.getStorage.get('account')
+        await this.httpGetClient.get(params)
         return null
     }
 
