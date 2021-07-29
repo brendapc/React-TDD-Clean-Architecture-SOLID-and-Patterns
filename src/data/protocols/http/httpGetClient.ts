@@ -1,7 +1,8 @@
 import { IHttpResponse } from '.'
 
-export interface IHttpGetParams{
+export type IHttpGetParams = {
   url: string
+  headers?: any
 }
 
 export interface IHttpGetClient<ResponseType = any> {
