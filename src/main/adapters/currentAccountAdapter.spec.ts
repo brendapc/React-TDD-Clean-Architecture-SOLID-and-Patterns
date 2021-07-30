@@ -13,14 +13,8 @@ describe('CurrentAccountAdapter', () => {
       setCurrentAccountAdapter(fakeAccount) // run function
       expect(setAccountSpy).toHaveBeenCalledWith('account', fakeAccount)
     })
-
-    test('should throw unexpected error if received value is invalid', () => {
-      // Test if this function returns an exception
-      expect(() => {
-        setCurrentAccountAdapter(undefined)
-      }).toThrow(new UnexpectedError())
-    })
   })
+
   describe('GET', () => {
     test('should call LocalStorageAdapter.get with correct value', () => {
       const fakeAccount = mockAccountModel()
