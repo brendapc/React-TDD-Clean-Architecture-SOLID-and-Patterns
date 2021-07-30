@@ -1,13 +1,12 @@
-import { AuthenticationParams } from '@/domain/useCases'
+import { RemoteAuthentication } from '@/data/useCases/authentication/remoteAuthentication'
 import faker from 'faker'
-import { IAccountModel } from '../models'
 
-export const mockAuthentication = (): AuthenticationParams => ({
+export const mockAuthentication = (): RemoteAuthentication.Params => ({
   email: faker.internet.email(),
   password: faker.internet.password()
 })
 
-export const mockAccountModel = (): IAccountModel => ({
+export const mockAccountModel = (): RemoteAuthentication.Model => ({
   accessToken: faker.datatype.uuid(),
   name: faker.name.findName()
 })

@@ -1,13 +1,13 @@
-import { AuthenticationParams, IAuthentication } from '@/domain/useCases'
-import { IAccountModel } from '@/domain/models'
+import { IAuthentication } from '@/domain/useCases'
 import { mockAccountModel } from '@/domain/mocks'
+import { RemoteAuthentication } from '@/data/useCases/authentication/remoteAuthentication'
 
 export class AuthenticationSpy implements IAuthentication {
   fakeAccount = mockAccountModel()
-  params: AuthenticationParams
+  params: RemoteAuthentication.Params
   callsCount = 0
 
-  async auth (params: AuthenticationParams): Promise<IAccountModel> {
+  async auth (params: RemoteAuthentication.Params): Promise<RemoteAuthentication.Model> {
     this.params = params
     this.callsCount++
     return this.fakeAccount

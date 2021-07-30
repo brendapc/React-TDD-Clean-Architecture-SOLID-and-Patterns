@@ -1,10 +1,10 @@
 import React from 'react'
 import Styles from './surveyItem.styles.scss'
 import { IconName, ThumbsIcons } from '@/presentation/components/utils'
-import { ISurveyModel } from '@/domain/models'
+import { ILoadSurveyList } from '@/domain/useCases'
 
 type Props = {
-  survey: ISurveyModel
+  survey: ILoadSurveyList.Model
 }
 export const SurveyItem: React.FC<Props> = ({ survey }: Props) => {
   const iconName = survey.didAnswer ? IconName.thumbsUp : IconName.thumbsDown

@@ -4,15 +4,14 @@ import { RemoteLoadSurveyList } from './loadRemoteSurveyList'
 import { HttpStatusCode } from '@/data/protocols/http'
 import { UnexpectedError } from '@/domain/errors'
 import { mockSurveyListModel } from '@/domain/mocks'
-import { ISurveyModel } from '@/domain/models'
 
 type SutTypes = {
   sut: RemoteLoadSurveyList
-  httpGetClientSpy: HttpGetClientSpy<ISurveyModel[]>
+  httpGetClientSpy: HttpGetClientSpy
 }
 
 const makeSystemUnderTest = (url = faker.internet.url()): SutTypes => {
-  const httpGetClientSpy = new HttpGetClientSpy<ISurveyModel[]>()
+  const httpGetClientSpy = new HttpGetClientSpy()
   const sut = new RemoteLoadSurveyList(url, httpGetClientSpy)
   return {
     sut,

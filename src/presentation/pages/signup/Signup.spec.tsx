@@ -7,10 +7,11 @@ import { Helper, ValidationStub , AddAccountSpy } from '@/presentation/mocks'
 import faker from 'faker'
 import { EmailInUseError } from '@/domain/errors'
 import { ApiContext } from '@/presentation/contexts'
+import { IAddAccount } from '@/domain/useCases'
 
 type SutTypes = {
   addAccountSpy: AddAccountSpy
-  setCurrentAccountMock: (account) => void
+  setCurrentAccountMock: (account: IAddAccount.Model) => void
 
 }
 

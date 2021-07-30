@@ -1,5 +1,13 @@
-import { ISurveyModel } from '@/domain/models'
 
 export interface ILoadSurveyList {
-  loadAll: () => Promise<ISurveyModel[]>
+  loadAll: () => Promise<ILoadSurveyList.Model[]>
+}
+
+export namespace ILoadSurveyList {
+  export type Model = {
+    id: string
+    question: string
+    date: Date
+    didAnswer: boolean
+  }
 }

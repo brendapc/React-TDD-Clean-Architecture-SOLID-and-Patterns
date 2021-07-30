@@ -8,10 +8,11 @@ import { InvalidCredentialsError } from '@/domain/errors'
 
 import { Login } from './Login'
 import { ApiContext } from '@/presentation/contexts'
+import { IAuthentication } from '@/domain/useCases'
 
 type SutTypes = {
   authenticationSpy: AuthenticationSpy
-  setCurrentAccountMock: (account) => void
+  setCurrentAccountMock: (account: IAuthentication.Model) => void
 }
 type SutParams = {
   validationError: string

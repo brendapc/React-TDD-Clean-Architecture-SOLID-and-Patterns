@@ -1,15 +1,15 @@
 import { IHttpPostClient, HttpStatusCode } from '@/data/protocols/http'
-import { AuthenticationParams, IAuthentication } from '@/domain/useCases'
+import { IAuthentication } from '@/domain/useCases'
 import { InvalidCredentialsError, UnexpectedError } from '@/domain/errors'
 import { IAccountModel } from '@/domain/models/'
 
 export class RemoteAuthentication implements IAuthentication {
   constructor (
     private readonly url: string,
-    private readonly httpPostClient: IHttpPostClient<IAccountModel>
+    private readonly httpPostClient: IHttpPostClient<RemoteAuthentication.Model>
   ) {}
 
-  async auth (params: AuthenticationParams): Promise<IAccountModel> {
+  async auth (params: RemoteAuthentication.Params): Promise<RemoteAuthentication.Model> {
     const httpResponse = await this.httpPostClient.post({
       url: this.url,
       body: params
@@ -22,4 +22,12 @@ export class RemoteAuthentication implements IAuthentication {
       default: throw new UnexpectedError()
     }
   }
+}
+
+export namespace RemoteAuthentication {
+  export type Params = {
+    email: string
+    password: string
+  }
+  export type Model = IAccountModel
 }

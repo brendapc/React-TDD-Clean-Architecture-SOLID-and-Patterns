@@ -1,23 +1,14 @@
-import faker, { fake } from 'faker'
-import { ISurveyModel } from '../models'
+import faker from 'faker'
+import { ILoadSurveyList } from '../useCases'
 
-export const mockSurveyModel = (): ISurveyModel => ({
+export const mockSurveyModel = (): ILoadSurveyList.Model => ({
   id: faker.datatype.uuid(),
   question: faker.random.words(10),
-  answers: [
-    {
-      answer: faker.random.words(4),
-      image: faker.internet.url()
-    },
-    {
-      answer: faker.random.words(5)
-    }
-  ],
   didAnswer: faker.datatype.boolean(),
   date: faker.date.recent()
 })
 
-export const mockSurveyListModel = (): ISurveyModel[] => [
+export const mockSurveyListModel = (): ILoadSurveyList.Model[] => [
   mockSurveyModel(),
   mockSurveyModel(),
   mockSurveyModel()

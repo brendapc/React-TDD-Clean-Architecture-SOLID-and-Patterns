@@ -1,4 +1,3 @@
-import { ISurveyModel } from '@/domain/models'
 import { ILoadSurveyList } from '@/domain/useCases'
 import { Footer, LoggedInHeader } from '@/presentation/components/layout'
 import React, { useEffect, useState } from 'react'
@@ -12,7 +11,7 @@ type Props = {
 
 export const SurveyList: React.FC<Props> = ({ loadSurveyList }: Props) => {
   const [state, setState] = useState({
-    surveys: [] as ISurveyModel[],
+    surveys: [] as ILoadSurveyList.Model[],
     error: '',
     reload: false
   })
