@@ -1,9 +1,13 @@
 import React from 'react'
+import { Router } from 'react-router-dom'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { SurveyList } from './SurveyList'
 import { ILoadSurveyList } from '@/domain/useCases'
 import { mockSurveyListModel } from '@/domain/mocks'
 import { UnexpectedError } from '@/domain/errors'
+import { createMemoryHistory } from 'history'
+import { ApiContext } from '@/presentation/contexts'
+
 
 type SutTypes = {
   loadSurveyListSpy: LoadSurveyListSpy
@@ -19,7 +23,13 @@ class LoadSurveyListSpy implements ILoadSurveyList {
 }
 
 const makeSystemUnderTest = (loadSurveyListSpy = new LoadSurveyListSpy()): SutTypes => {
-  render(<SurveyList loadSurveyList={loadSurveyListSpy} />)
+  render(
+    <ApiContext.Provider value={{ setCurrentAccount: jest.fn() }}>
+      <Router history={createMemoryHistory()}>
+        <SurveyList loadSurveyList={loadSurveyListSpy} />
+      </Router>
+    </ApiContext.Provider>
+  )
   return {
     loadSurveyListSpy
   }
