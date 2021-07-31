@@ -3,7 +3,7 @@ import { Router } from 'react-router-dom'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { SurveyList } from './SurveyList'
 import { ILoadSurveyList } from '@/domain/useCases'
-import { mockSurveyListModel } from '@/domain/mocks'
+import { mockAccountModel, mockSurveyListModel } from '@/domain/mocks'
 import { UnexpectedError } from '@/domain/errors'
 import { createMemoryHistory } from 'history'
 import { ApiContext } from '@/presentation/contexts'
@@ -24,7 +24,7 @@ class LoadSurveyListSpy implements ILoadSurveyList {
 
 const makeSystemUnderTest = (loadSurveyListSpy = new LoadSurveyListSpy()): SutTypes => {
   render(
-    <ApiContext.Provider value={{ setCurrentAccount: jest.fn() }}>
+    <ApiContext.Provider value={{ setCurrentAccount: jest.fn(), getCurrentAccount: () => mockAccountModel() }}>
       <Router history={createMemoryHistory()}>
         <SurveyList loadSurveyList={loadSurveyListSpy} />
       </Router>
