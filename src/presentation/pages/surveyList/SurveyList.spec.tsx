@@ -8,7 +8,6 @@ import { UnexpectedError } from '@/domain/errors'
 import { createMemoryHistory } from 'history'
 import { ApiContext } from '@/presentation/contexts'
 
-
 type SutTypes = {
   loadSurveyListSpy: LoadSurveyListSpy
 }

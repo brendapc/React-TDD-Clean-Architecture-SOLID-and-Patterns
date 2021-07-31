@@ -31,7 +31,7 @@ const makeSystemUnderTest = (account = mockAccountModel()): SutTypes => {
 
 describe('Header when user is logged in', () => {
   test('should call setCurrentAccount with null on logout', () => {
-   const { history, setCurrentAccountMock} =  makeSystemUnderTest()
+    const { history, setCurrentAccountMock } = makeSystemUnderTest()
     fireEvent.click(screen.getByTestId('logout'))
     expect(setCurrentAccountMock).toHaveBeenCalledWith(undefined)
     expect(history.location.pathname).toBe('/login')
@@ -40,5 +40,5 @@ describe('Header when user is logged in', () => {
     const account = mockAccountModel()
     makeSystemUnderTest(account)
     expect(screen.getByTestId('username')).toHaveTextContent(account.name)
-   })
+  })
 })
