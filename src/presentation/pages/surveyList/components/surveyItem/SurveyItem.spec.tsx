@@ -21,7 +21,7 @@ describe('SurveyItem Component', () => {
     )
     expect(screen.getByTestId('question')).toHaveTextContent(survey.question)
     expect(screen.getByTestId('day')).toHaveTextContent('28')
-    expect(screen.getByTestId('month')).toHaveTextContent('jul.')
+    expect(screen.getByTestId('month')).toHaveTextContent('jul.' || 'Jul')
     expect(screen.getByTestId('year')).toHaveTextContent('2021')
   })
   test('should render with correct values', () => {
@@ -36,7 +36,7 @@ describe('SurveyItem Component', () => {
     )
     expect(screen.getByTestId('question')).toHaveTextContent(survey.question)
     expect(screen.getByTestId('day')).toHaveTextContent('03')
-    expect(screen.getByTestId('month')).toHaveTextContent('out.')
+    expect(screen.getByTestId('month')).toHaveTextContent('out.' || 'Oct')
     expect(screen.getByTestId('year')).toHaveTextContent('2021')
   })
 })
