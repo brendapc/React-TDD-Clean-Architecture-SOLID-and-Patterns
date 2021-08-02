@@ -1,16 +1,15 @@
-import { ApiContext } from '@/presentation/contexts'
 import React, { useContext } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useLogout } from '@/presentation/hooks'
+import { ApiContext } from '@/presentation/contexts'
 import { Logo } from '..'
 import Styles from './loggedInHeader.styles.scss'
 
 export const LoggedInHeader: React.FC = () => {
-  const { setCurrentAccount, getCurrentAccount } = useContext(ApiContext)
-  const history = useHistory()
+  const logoutHook = useLogout()
+  const { getCurrentAccount } = useContext(ApiContext)
   const logout = (event: any): void => {
     event.preventDefault()
-    setCurrentAccount(undefined)
-    history.replace('/login')
+    logoutHook()
   }
 
   return (

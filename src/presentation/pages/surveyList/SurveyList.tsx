@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { ILoadSurveyList } from '@/domain/useCases'
+import { useErrorHandler } from '@/presentation/hooks/'
 import { Footer, LoggedInHeader } from '@/presentation/components/layout'
 import { ListSurveys, Error } from './components'
 import SurveyContext from './context/SurveyContext'
 import Styles from './surveyList.styles.scss'
-import { useErrorHandler } from '@/presentation/hooks/useErrorHandler'
 
 type Props = {
   loadSurveyList: ILoadSurveyList
