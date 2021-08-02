@@ -1,6 +1,7 @@
 import faker from 'faker'
-import * as FormHelper from '../support/formHelper'
+import * as FormHelper from '../support/formHelpers'
 import * as HttpHelper from '../support/loginMocks'
+import * as Helper from '../support/helpers'
 
 const baseUrl: string = Cypress.config().baseUrl
 
@@ -54,21 +55,11 @@ describe('Login', () => {
     cy.getByTestId('spinner').should('not.exist')
     cy.getByTestId('main-error').should('not.exist')
     cy.url().should('eq', `${baseUrl}/`)
-    cy.window().then(window => assert.isOk(window.localStorage.getItem('account')))
+    Helper.testLocalStorageItem('account')
   })
 
   it('should present Unexpected error on default error cases', () => {
     HttpHelper.mockUnexpectedError()
-    cy.getByTestId('email').focus().type(faker.internet.email())
-    cy.getByTestId('password').focus().type(faker.random.alphaNumeric(5))
-    cy.getByTestId('submit-button').click()
-    cy.getByTestId('spinner').should('not.exist')
-    cy.getByTestId('main-error').should('contain.text', 'Algo de errado aconteceu. Tente novamente')
-    cy.url().should('eq', `${baseUrl}/login`)
-  })
-
-  it('should present Unexpected error if invalid data is returned', () => {
-    HttpHelper.mockInvalidResponse()
     cy.getByTestId('email').focus().type(faker.internet.email())
     cy.getByTestId('password').focus().type(faker.random.alphaNumeric(5))
     cy.getByTestId('submit-button').click()

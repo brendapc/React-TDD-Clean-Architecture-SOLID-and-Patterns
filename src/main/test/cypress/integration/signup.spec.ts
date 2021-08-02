@@ -1,5 +1,6 @@
 import faker from 'faker'
-import * as FormHelper from '../support/formHelper'
+import * as FormHelper from '../support/formHelpers'
+import * as Helper from '../support/helpers'
 import * as HttpHelper from '../support/signupMocks'
 
 const populateFields = (): void => {
@@ -62,28 +63,21 @@ describe('SignUp', () => {
     HttpHelper.mockEmailInUseError()
     simulateValidSubmit()
     FormHelper.testMainError('Esse email já está em uso')
-    FormHelper.testUrl('/signup')
+    Helper.testUrl('/signup')
   })
 
   it('should present Unexpected error on default error cases', () => {
     HttpHelper.mockUnexpectedError()
     simulateValidSubmit()
     FormHelper.testMainError('Algo de errado aconteceu. Tente novamente')
-    FormHelper.testUrl('/signup')
-  })
-
-  it('should present Unexpected error if invalid data is returned', () => {
-    HttpHelper.mockUnexpectedError()
-    simulateValidSubmit()
-    FormHelper.testMainError('Algo de errado aconteceu. Tente novamente')
-    FormHelper.testUrl('/signup')
+    Helper.testUrl('/signup')
   })
 
   it('should save account if valid credentials are provided', () => {
     HttpHelper.mockOkRequest()
     simulateValidSubmit()
     cy.window().then(window => assert.isOk(window.localStorage.getItem('account')))
-    FormHelper.testUrl('/')
+    Helper.testUrl('/')
   })
 
   it('should prevent multiple submits', () => {
