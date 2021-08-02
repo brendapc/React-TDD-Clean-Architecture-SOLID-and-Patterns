@@ -5,11 +5,15 @@ import { SurveyList } from './SurveyList'
 import { ILoadSurveyList } from '@/domain/useCases'
 import { mockAccountModel, mockSurveyListModel } from '@/domain/mocks'
 import { UnexpectedError } from '@/domain/errors'
-import { createMemoryHistory } from 'history'
+import { createMemoryHistory, MemoryHistory } from 'history'
 import { ApiContext } from '@/presentation/contexts'
+import { IAccountModel } from '@/domain/models'
+import { AccessDeniedError } from '@/domain/errors/AccessDeniedError'
 
 type SutTypes = {
   loadSurveyListSpy: LoadSurveyListSpy
+  history: MemoryHistory
+  setCurrentAccountMock: (account: IAccountModel) => void
 }
 
 class LoadSurveyListSpy implements ILoadSurveyList {
@@ -22,15 +26,19 @@ class LoadSurveyListSpy implements ILoadSurveyList {
 }
 
 const makeSystemUnderTest = (loadSurveyListSpy = new LoadSurveyListSpy()): SutTypes => {
+  const history = createMemoryHistory({ initialEntries: ['/'] })
+  const setCurrentAccountMock = jest.fn()
   render(
-    <ApiContext.Provider value={{ setCurrentAccount: jest.fn(), getCurrentAccount: () => mockAccountModel() }}>
-      <Router history={createMemoryHistory()}>
+    <ApiContext.Provider value={{ setCurrentAccount: setCurrentAccountMock, getCurrentAccount: () => mockAccountModel() }}>
+      <Router history={history}>
         <SurveyList loadSurveyList={loadSurveyListSpy} />
       </Router>
     </ApiContext.Provider>
   )
   return {
-    loadSurveyListSpy
+    loadSurveyListSpy,
+    history,
+    setCurrentAccountMock
   }
 }
 
@@ -64,5 +72,13 @@ describe('SurveyList Component', () => {
     fireEvent.click(screen.getByTestId('reload-button'))
     expect(loadSurveyListSpy.callsCount).toBe(1)
     await waitFor(() => screen.getByRole('heading'))
+  })
+  test('should logout on AccessDeniedError', async () => {
+    const loadSurveyListSpy = new LoadSurveyListSpy()
+    jest.spyOn(loadSurveyListSpy, 'loadAll').mockRejectedValueOnce(new AccessDeniedError())
+    const { setCurrentAccountMock, history } = makeSystemUnderTest(loadSurveyListSpy)
+    await waitFor(() => screen.getByRole('heading'))
+    expect(setCurrentAccountMock).toHaveBeenCalledWith(undefined)
+    expect(history.location.pathname).toBe('/login')
   })
 })
