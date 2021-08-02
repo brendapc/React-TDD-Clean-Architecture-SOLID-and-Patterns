@@ -1,6 +1,7 @@
 import { ILoadSurveyList } from '@/domain/useCases/loadSurveyList'
 import { HttpStatusCode, IHttpGetClient } from '@/data/protocols/http'
 import { UnexpectedError } from '@/domain/errors'
+import { AccessDeniedError } from '@/domain/errors/AccessDeniedError'
 
 export class RemoteLoadSurveyList implements ILoadSurveyList {
   constructor (
@@ -15,6 +16,7 @@ export class RemoteLoadSurveyList implements ILoadSurveyList {
         date: new Date(remoteSurvey.date)
       }))
       case HttpStatusCode.noContent: return []
+      case HttpStatusCode.forbidden: throw new AccessDeniedError()
       default: throw new UnexpectedError()
     }
   }
