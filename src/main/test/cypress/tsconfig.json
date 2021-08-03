@@ -1,4 +1,4 @@
- {
+{
     "compilerOptions": {
       "types": ["cypress"],
       "esModuleInterop": true

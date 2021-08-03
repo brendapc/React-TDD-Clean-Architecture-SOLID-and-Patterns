@@ -1,6 +1,13 @@
 import faker from 'faker'
-import * as FormHelper from '../support/formHelper'
-import * as HttpHelper from '../support/signupMocks'
+import * as FormHelper from '../utils/formHelpers'
+import * as Helper from '../utils/helpers'
+import * as Http from '../utils/httpMocks'
+
+const path = /signup/
+const mockEmailInUseError = (): void => Http.mockForbiddenError(path, 'POST')
+const mockUnexpectedError = (): void => Http.mockServerError(path, 'POST')
+const mockInvalidResponse = (): void => Http.mockOkRequest(path, 'POST', { invalid: faker.random.words() })
+const mockOkRequest = (): void => Http.mockOkRequest(path, 'POST', 'fx:account')
 
 const populateFields = (): void => {
   cy.getByTestId('username').focus().type(faker.name.findName())
@@ -59,48 +66,41 @@ describe('SignUp', () => {
   })
 
   it('should present EmailInUseError on 403', () => {
-    HttpHelper.mockEmailInUseError()
+    mockEmailInUseError()
     simulateValidSubmit()
     FormHelper.testMainError('Esse email já está em uso')
-    FormHelper.testUrl('/signup')
+    Helper.testUrl('/signup')
   })
 
   it('should present Unexpected error on default error cases', () => {
-    HttpHelper.mockUnexpectedError()
+    mockUnexpectedError()
     simulateValidSubmit()
     FormHelper.testMainError('Algo de errado aconteceu. Tente novamente')
-    FormHelper.testUrl('/signup')
-  })
-
-  it('should present Unexpected error if invalid data is returned', () => {
-    HttpHelper.mockUnexpectedError()
-    simulateValidSubmit()
-    FormHelper.testMainError('Algo de errado aconteceu. Tente novamente')
-    FormHelper.testUrl('/signup')
+    Helper.testUrl('/signup')
   })
 
   it('should save account if valid credentials are provided', () => {
-    HttpHelper.mockOkRequest()
+    mockOkRequest()
     simulateValidSubmit()
     cy.window().then(window => assert.isOk(window.localStorage.getItem('account')))
-    FormHelper.testUrl('/')
+    Helper.testUrl('/')
   })
 
   it('should prevent multiple submits', () => {
-    HttpHelper.mockOkRequest()
+    mockOkRequest()
     populateFields()
     cy.getByTestId('submit-button').dblclick()
     cy.get('@request.all').should('have.length', 1)
   })
 
   it('should prevent submit on empty field', () => {
-    HttpHelper.mockOkRequest()
+    mockOkRequest()
     cy.getByTestId('email').focus().type(faker.internet.email()).type('{enter}')
     cy.get('@request.all').should('have.length', 0)
   })
 
   it('should submit on press enter', () => {
-    HttpHelper.mockOkRequest()
+    mockOkRequest()
     cy.getByTestId('username').focus().type(faker.name.findName())
     cy.getByTestId('email').focus().type(faker.internet.email())
     const password = faker.random.alphaNumeric(5)
