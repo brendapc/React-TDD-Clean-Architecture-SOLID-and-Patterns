@@ -22,23 +22,28 @@ export const Login: React.FC<Props> = ({ validation, authentication }: Props) =>
     password: '',
     emailError: '',
     passwordError: '',
-    mainError: ''
+    mainError: '',
+    isFormInvalid: true
   })
+  useEffect(() => {
+    validate('email')
+  }, [formState.email])
 
   useEffect(() => {
+    validate('password')
+  }, [formState.password])
+
+  const validate = (field: string): void => {
     const { email, password } = formState
     const formData = { email, password }
-    setFormState({
-      ...formState,
-      emailError: validation.validate('email', formData),
-      passwordError: validation.validate('password', formData)
-    })
-  }, [formState.email, formState.password])
+    setFormState(old => ({ ...old, [`${field}Error`]: validation.validate(field, formData) }))
+    setFormState(old => ({ ...old, isFormInvalid: !!old.emailError || !!old.passwordError }))
+  }
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     try {
       event.preventDefault()
-      if (formState.isLoading || formState.emailError || formState.passwordError) return
+      if (formState.isLoading || formState.isFormInvalid) return
 
       setFormState({ ...formState, isLoading: true })
 
@@ -64,7 +69,7 @@ export const Login: React.FC<Props> = ({ validation, authentication }: Props) =>
           <h2>Login</h2>
           <Input type="email" name="email" placeholder="Digite seu e-mail" />
           <Input type="password" name="password" placeholder="Digite sua senha" />
-          <button data-testid="submit-button" className={Styles.submit} disabled={!!formState.emailError || !!formState.passwordError} type="submit">Entrar</button>
+          <button data-testid="submit-button" className={Styles.submit} disabled={formState.isFormInvalid} type="submit">Entrar</button>
           <Link to="/signup" data-testid="signup" className={Styles.link}>Criar conta</Link>
           <FormStatus />
         </form>

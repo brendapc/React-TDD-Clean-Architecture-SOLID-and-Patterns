@@ -31,30 +31,24 @@ export const Signup: React.FC<Props> = ({ validation, addAccount }: Props) => {
     mainError: ''
   })
 
-  useEffect(() => {
+  useEffect(() => { validate('username') }, [formState.username])
+  useEffect(() => { validate('email') }, [formState.email])
+  useEffect(() => { validate('password') }, [formState.password])
+  useEffect(() => { validate('passwordConfirmation') }, [formState.passwordConfirmation])
+
+  const validate = (field: string): void => {
     const { username, email, password, passwordConfirmation } = formState
     const formData = { username, email, password, passwordConfirmation }
-    const usernameError = validation.validate('username', formData)
-    const emailError = validation.validate('email', formData)
-    const passwordError = validation.validate('password', formData)
-    const passwordConfirmationError = validation.validate('passwordConfirmation', formData)
-
-    setFormState({
-      ...formState,
-      usernameError,
-      emailError,
-      passwordError,
-      passwordConfirmationError,
-      isFormInvalid: !!usernameError || !!emailError || !!passwordError || !!passwordConfirmationError
-    })
-  }, [formState.username, formState.email, formState.password, formState.passwordConfirmation])
+    setFormState(old => ({ ...old, [`${field}Error`]: validation.validate(field, formData) }))
+    setFormState(old => ({ ...old, isFormInvalid: !!old.usernameError || !!old.emailError || !!old.passwordError || !!old.passwordConfirmationError }))
+  }
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
     try {
       if (formState.isLoading || formState.isFormInvalid) return
       setFormState({ ...formState, isLoading: true })
-      const account = await addAccount.add({ username: formState.username, email: formState.email,password: formState.password,passwordConfirmation: formState.passwordConfirmation })
+      const account = await addAccount.add({ username: formState.username, email: formState.email,password: formState.password, passwordConfirmation: formState.passwordConfirmation })
 
       setCurrentAccount(account)
 
