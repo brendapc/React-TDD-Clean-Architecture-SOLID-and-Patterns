@@ -1,9 +1,14 @@
 import faker from 'faker'
-import * as FormHelper from '../support/formHelpers'
-import * as HttpHelper from '../support/loginMocks'
-import * as Helper from '../support/helpers'
+import * as FormHelper from '../utils/formHelpers'
+import * as Helper from '../utils/helpers'
+import * as Http from '../utils/httpMocks'
 
 const baseUrl: string = Cypress.config().baseUrl
+
+const path = /login/
+const mockInvalidCredentialsError = (): void => Http.mockUnauthorizedError(path)
+const mockUnexpectedError = (): void => Http.mockServerError(path, 'POST')
+const mockOkRequest = (): void => Http.mockOkRequest(path, 'POST', 'fx:account')
 
 describe('Login', () => {
   beforeEach(() => {
@@ -38,7 +43,7 @@ describe('Login', () => {
   })
 
   it('should present InvalidCredentialsError on 401', () => {
-    HttpHelper.mockInvalidCredentialsError()
+    mockInvalidCredentialsError()
     cy.getByTestId('email').focus().type(faker.internet.email())
     cy.getByTestId('password').focus().type(faker.random.alphaNumeric(5))
     cy.getByTestId('submit-button').click()
@@ -48,7 +53,7 @@ describe('Login', () => {
   })
 
   it('should save account if valid credentials are provided', () => {
-    HttpHelper.mockOkRequest()
+    mockOkRequest()
     cy.getByTestId('email').focus().type(faker.internet.email())
     cy.getByTestId('password').focus().type(faker.random.alphaNumeric(5))
     cy.getByTestId('submit-button').click()
@@ -59,7 +64,7 @@ describe('Login', () => {
   })
 
   it('should present Unexpected error on default error cases', () => {
-    HttpHelper.mockUnexpectedError()
+    mockUnexpectedError()
     cy.getByTestId('email').focus().type(faker.internet.email())
     cy.getByTestId('password').focus().type(faker.random.alphaNumeric(5))
     cy.getByTestId('submit-button').click()
@@ -69,7 +74,7 @@ describe('Login', () => {
   })
 
   it('should prevent multiple submits', () => {
-    HttpHelper.mockOkRequest()
+    mockOkRequest()
     cy.getByTestId('email').focus().type(faker.internet.email())
     cy.getByTestId('password').focus().type(faker.random.alphaNumeric(5))
     cy.getByTestId('submit-button').dblclick()
@@ -77,13 +82,13 @@ describe('Login', () => {
   })
 
   it('should prevent submit on empty field', () => {
-    HttpHelper.mockOkRequest()
+    mockOkRequest()
     cy.getByTestId('email').focus().type(faker.internet.email()).type('{enter}')
     cy.get('@request.all').should('have.length', 0)
   })
 
   it('should submit on press enter', () => {
-    HttpHelper.mockOkRequest()
+    mockOkRequest()
     cy.getByTestId('email').focus().type(faker.internet.email())
     cy.getByTestId('password').focus().type(faker.random.alphaNumeric(5)).type('{enter}')
   })
