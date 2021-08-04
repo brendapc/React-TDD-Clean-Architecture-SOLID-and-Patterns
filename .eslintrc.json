@@ -35,6 +35,7 @@
     "@typescript-eslint/no-floating-promises": "off",
     "@typescript-eslint/no-namespace": "off",
     "import/export": "off",
-    "@typescript-eslint/no-redeclare": "off"
+    "@typescript-eslint/no-redeclare": "off",
+    "@typescript-eslint/no-var-requires": "off"
   }
 }
