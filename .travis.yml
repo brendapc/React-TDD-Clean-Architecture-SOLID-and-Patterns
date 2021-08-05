@@ -9,3 +9,4 @@ deploy:
   api_key: $HEROKU_API
   app: tdd-solid-react
   skip_cleanup: true
+  branch: main
