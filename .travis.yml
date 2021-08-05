@@ -6,7 +6,6 @@ addons:
     - libgconf-2-4
 script:
   - eslint 'src/**'
-  - npm run test:coveralls
   - npm run test:cypress:ci
 deploy:
   provider: heroku
@@ -17,3 +16,5 @@ deploy:
     branch: main
 notifications:
   email: false
+after_success:
+  - npm run coveralls
