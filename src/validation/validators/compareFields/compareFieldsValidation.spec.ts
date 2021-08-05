@@ -15,7 +15,7 @@ const makeSystemUnderTest = (field: string, fieldToCompare: string): SutTypes =>
 
 describe('Required Field Validation', () => {
   test('should return an error if compare is invalid', () => {
-    const field = faker.database.column()
+    const field = 'any_field'
     const fieldToCompare = faker.database.column()
     const { sut } = makeSystemUnderTest(field, fieldToCompare)
     const error = sut.validate({ [field]: faker.random.words(3), [fieldToCompare]: faker.random.words(4) })
