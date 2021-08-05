@@ -6,6 +6,6 @@ script:
   - npm run test:coveralls
 deploy:
   provider: heroku
-  api_key: $HEROKU-API
+  api_key: $HEROKU_API
   app: tdd-solid-react
   skip_cleanup: true
