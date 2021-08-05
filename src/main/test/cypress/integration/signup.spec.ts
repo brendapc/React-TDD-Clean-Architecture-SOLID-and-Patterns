@@ -90,6 +90,7 @@ describe('SignUp', () => {
     mockOkRequest()
     populateFields()
     cy.getByTestId('submit-button').dblclick()
+    cy.wait('@request')
     cy.get('@request.all').should('have.length', 1)
   })
 
