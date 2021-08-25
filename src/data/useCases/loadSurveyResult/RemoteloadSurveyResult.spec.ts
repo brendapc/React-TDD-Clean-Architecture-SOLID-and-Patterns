@@ -1,5 +1,5 @@
 import faker from 'faker'
-import { HttpGetClientSpy } from '@/data/mocks'
+import { HttpGetClientSpy, mockRemoteSurveyResult } from '@/data/mocks'
 import { RemoteLoadSurveyResult } from '@/data/useCases/loadSurveyResult/RemoteloadSurveyResult'
 import { HttpStatusCode } from '@/data/protocols/http'
 import { AccessDeniedError } from '@/domain/errors/AccessDeniedError'
@@ -52,5 +52,20 @@ describe('RemoteLoadSurveyResult', () => {
     }
     const promise = sut.load()
     await expect(promise).rejects.toThrow(new UnexpectedError())
+  })
+
+  test('should return a survey result on 200', async () => {
+    const { sut, httpGetClientSpy } = makeSystemUnderTest()
+    const httpResult = mockRemoteSurveyResult()
+    httpGetClientSpy.response = {
+      statusCode: HttpStatusCode.okRequest,
+      body: httpResult
+    }
+    const httpResponse = await sut.load()
+    expect(httpResponse).toEqual({
+      question: httpResult.question,
+      answers: httpResult.answers,
+      date: new Date(httpResult.date)
+    })
   })
 })
