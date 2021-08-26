@@ -12,7 +12,7 @@ type Props = {
 
 export const SurveyList: React.FC<Props> = ({ loadSurveyList }: Props) => {
   const handleError = useErrorHandler((error: Error) => {
-    setState({ ...state, error: error.message })
+    setState(old => ({ ...old, error: error.message }))
   })
   const [state, setState] = useState({
     surveys: [] as ILoadSurveyList.Model[],
@@ -22,7 +22,7 @@ export const SurveyList: React.FC<Props> = ({ loadSurveyList }: Props) => {
   useEffect(() => {
     (async function () {
       await loadSurveyList.loadAll()
-        .then(surveys => setState({ ...state, surveys }))
+        .then(surveys => setState(old => ({ ...old, surveys })))
         .catch(error => handleError(error))
     })()
   }, [state.reload])
@@ -33,7 +33,7 @@ export const SurveyList: React.FC<Props> = ({ loadSurveyList }: Props) => {
       <div className={Styles.contentWrapper}>
         <h2>Enquetes</h2>
         <SurveyContext.Provider value={{ state, setState }}>
-          { state.error
+          {state.error
             ? <Error />
             : (<ListSurveys />)
           }

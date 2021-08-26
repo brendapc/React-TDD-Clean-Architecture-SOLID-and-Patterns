@@ -45,7 +45,7 @@ export const Login: React.FC<Props> = ({ validation, authentication }: Props) =>
       event.preventDefault()
       if (formState.isLoading || formState.isFormInvalid) return
 
-      setFormState({ ...formState, isLoading: true })
+      setFormState(old => ({ ...old, isLoading: true }))
 
       const account = await authentication.auth({ email: formState.email, password: formState.password })
 
@@ -53,11 +53,11 @@ export const Login: React.FC<Props> = ({ validation, authentication }: Props) =>
 
       history.replace('/')
     } catch (err) {
-      setFormState({
-        ...formState,
+      setFormState(old => ({
+        ...old,
         isLoading: false,
         mainError: err.message
-      })
+      }))
     }
   }
 

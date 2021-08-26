@@ -47,18 +47,18 @@ export const Signup: React.FC<Props> = ({ validation, addAccount }: Props) => {
     event.preventDefault()
     try {
       if (formState.isLoading || formState.isFormInvalid) return
-      setFormState({ ...formState, isLoading: true })
+      setFormState(old => ({ ...old, isLoading: true }))
       const account = await addAccount.add({ username: formState.username, email: formState.email,password: formState.password, passwordConfirmation: formState.passwordConfirmation })
 
       setCurrentAccount(account)
 
       history.replace('/')
     } catch (err) {
-      setFormState({
-        ...formState,
+      setFormState(old => ({
+        ...old,
         isLoading: false,
         mainError: err.message
-      })
+      }))
     }
   }
 
