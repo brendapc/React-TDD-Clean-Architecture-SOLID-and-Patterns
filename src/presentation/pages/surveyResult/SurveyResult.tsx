@@ -1,6 +1,6 @@
-import { Footer, LoggedInHeader } from '@/presentation/components/layout'
-import { Spinner } from '@/presentation/components/utils'
 import React from 'react'
+import { Footer, LoggedInHeader } from '@/presentation/components/layout'
+import { Loading } from '@/presentation/components/utils'
 import Styles from './surveyResult.styles.scss'
 
 export const SurveyResult: React.FC = () => {
@@ -27,12 +27,7 @@ export const SurveyResult: React.FC = () => {
                     </li>
                 </ul>
                 <button>Voltar</button>
-                <div className={Styles.loadingWrapper}>
-                    <div className={Styles.lodingComponent}>
-                        <span>Aguarde...</span>
-                        <Spinner isNegative={true} />
-                    </div>
-                </div>
+                <Loading />
             </div>
             <Footer />
         </div>
