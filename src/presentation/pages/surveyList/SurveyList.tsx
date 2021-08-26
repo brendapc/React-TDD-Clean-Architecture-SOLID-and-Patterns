@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { ILoadSurveyList } from '@/domain/useCases'
 import { useErrorHandler } from '@/presentation/hooks/'
 import { Footer, LoggedInHeader } from '@/presentation/components/layout'
-import { ListSurveys, Error } from './components'
+import { Error } from '@/presentation/components/utils'
+import { ListSurveys } from './components'
 import SurveyContext from './context/SurveyContext'
 import Styles from './surveyList.styles.scss'
 
@@ -27,6 +28,14 @@ export const SurveyList: React.FC<Props> = ({ loadSurveyList }: Props) => {
     })()
   }, [state.reload])
 
+  const handleReload = (): void => {
+    setState(old => ({
+      surveys: [],
+      error: '',
+      reload: !old.reload
+    }))
+  }
+
   return (
     <div className={Styles.surveyListWrapper}>
       <LoggedInHeader />
@@ -34,7 +43,7 @@ export const SurveyList: React.FC<Props> = ({ loadSurveyList }: Props) => {
         <h2>Enquetes</h2>
         <SurveyContext.Provider value={{ state, setState }}>
           {state.error
-            ? <Error />
+            ? <Error error={state.error} reload={handleReload} />
             : (<ListSurveys />)
           }
         </SurveyContext.Provider>
