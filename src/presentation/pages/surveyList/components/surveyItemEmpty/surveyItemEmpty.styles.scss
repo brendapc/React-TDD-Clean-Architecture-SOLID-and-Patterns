@@ -1,4 +1,5 @@
 @import '../../../../styles/colors.scss';
+@import '../../../../styles/animations.scss';
 
 .surveyItemEmpty {
     height: 250px;
@@ -43,13 +44,6 @@
         transform: translateX(-100%);
         background-image: linear-gradient(to right, transparent, rgba($white, 0.3), transparent);
         animation: shimmer 0.9s infinite;
-    }
-    
-}
-
-@keyframes shimmer {
-    100% {
-        transform: translateX(100%);
     }
 }
 @media only screen and (max-width: 600px){   

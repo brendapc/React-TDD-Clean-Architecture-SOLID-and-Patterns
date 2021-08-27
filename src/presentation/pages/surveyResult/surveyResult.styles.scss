@@ -1,11 +1,12 @@
 @import "../../styles/colors.scss";
+@import "../../styles/animations.scss";
 
 .surveyResultWrapper {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     min-height: 100vh;
-    background-color: $disabledColor;
+    background-color: $background;
 
     .contentWrapper{
         display: flex;
@@ -16,6 +17,48 @@
         flex-grow: 1;       
         padding: 40px;
         
+
+        &:empty{
+            position: relative;
+            background-repeat: no-repeat;
+            background-image: 
+                linear-gradient(to right, $disabledColor, $disabledColor),
+                linear-gradient(to right, $disabledColor, $disabledColor),
+                linear-gradient(to right, $disabledColor, $disabledColor),
+                linear-gradient(to right, $disabledColor, $disabledColor),
+                linear-gradient(to right, $disabledColor, $disabledColor),
+                linear-gradient(to right, $disabledColor, $disabledColor),
+                linear-gradient(to right, $disabledColor, $disabledColor);
+            background-position: 
+                40px 40px,
+                136px 50px,
+                136px 80px,
+                136px 110px,
+                40px 172px,
+                40px 270px,
+                40px 373px;
+            background-size:
+                80px 100px, 
+                calc(100% - 176px) 20px, 
+                calc(80% - 176px) 20px, 
+                calc(50% - 176px) 20px, 
+                calc(100% - 80px) 82px, 
+                calc(100% - 80px) 82px, 
+                calc(100% - 80px) 82px;
+
+            &::after{
+                content: '';
+                position: absolute;
+                width: 80%;
+                height: 80%;
+                top: 0;
+                left: 0;
+                transform: translateX(-100%);
+                background-image: linear-gradient(to right, transparent, rgba($white, 0.3), transparent);
+                animation: shimmer 0.9s infinite;
+            }
+        }
+
         hgroup{
             display: flex;
             flex-direction: row;
@@ -67,7 +110,7 @@
                 }
 
                 &.active{
-                    border: 3px solid $primaryLight;
+                    box-shadow: 0 0 3px 2px $primaryLight;
                 }
             }
         }
@@ -77,5 +120,74 @@
         }
     
     
+    }
+}
+
+@media only screen and (max-width: 60px){
+    .surveyResultWrapper {
+        .contentWrapper{
+            &:empty{
+                position: relative;
+                background-repeat: no-repeat;
+                background-image: 
+                    linear-gradient(to right, $disabledColor, $disabledColor),
+                    linear-gradient(to right, $disabledColor, $disabledColor),
+                    linear-gradient(to right, $disabledColor, $disabledColor),
+                    linear-gradient(to right, $disabledColor, $disabledColor),
+                    linear-gradient(to right, $disabledColor, $disabledColor),
+                    linear-gradient(to right, $disabledColor, $disabledColor),
+                    linear-gradient(to right, $disabledColor, $disabledColor);
+                background-position: 
+                    40px 40px,
+                    116px 50px,
+                    116px 80px,
+                    116px 110px,
+                    40px 172px,
+                    40px 270px,
+                    40px 373px;
+                background-size:
+                    60px 100px, 
+                    calc(100% - 176px) 20px, 
+                    calc(80% - 176px) 20px, 
+                    calc(50% - 176px) 20px, 
+                    calc(100% - 80px) 72px, 
+                    calc(100% - 80px) 72px, 
+                    calc(100% - 80px) 72px;
+
+                    &::after{
+                        width: 100%;
+                        height: 100%;
+                  
+                    }
+               
+            }
+
+            hgroup{
+                h2{
+                    font-size: 20px;
+                }
+    
+                .calendarWrapper{
+                    width: 60px;
+                }
+            }
+
+            ul{   
+                li{    
+                    img{
+                        width: 40px;
+                        height: 40px;
+                    }
+    
+                    .answer{
+                        font-size: 16px;
+                    }
+                    
+                    .percent{                    
+                        font-size: 20px;
+                    }
+                }
+            }
+        }
     }
 }
