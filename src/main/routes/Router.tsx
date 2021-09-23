@@ -17,7 +17,7 @@ export const Router: React.FC = () => {
           <Route path="/login" exact component={makeLoginPage} />
           <Route path="/signup" exact component={makeSignupPage} />
           <PrivateRoute path="/" exact component={makeSurveyList} />
-          <PrivateRoute path="/surveyresult/:id" exact component={makeSurveyResult} />
+          <PrivateRoute path="/surveys/:id" exact component={makeSurveyResult} />
         </Switch>
       </BrowserRouter>
     </ApiContext.Provider>
