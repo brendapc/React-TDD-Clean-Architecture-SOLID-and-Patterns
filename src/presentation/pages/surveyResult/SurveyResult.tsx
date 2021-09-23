@@ -4,23 +4,29 @@ import { Calendar, Loading } from '@/presentation/components/utils'
 import Styles from './surveyResult.styles.scss'
 import { ILoadSurveyResult } from '@/domain/useCases'
 import { Error } from '@/presentation/components/utils'
+import { useErrorHandler } from '@/presentation/hooks'
 
 type Props = {
     loadSurveyResult: ILoadSurveyResult
 }
 
 export const SurveyResult: React.FC<Props> = ({ loadSurveyResult }: Props) => {
-    const [state] = useState({
+    const [state, setState] = useState({
         isLoading: false,
         error: '',
-        surveyResult: null as ILoadSurveyResult.Model
+        surveyResult: null as ILoadSurveyResult.Model,
+        reload: false
     })
 
-    useEffect(() => {
-        loadSurveyResult.load().then(() => {
+    const handleError = useErrorHandler((error: Error) => {
+        setState(old => ({ ...old, surveyResult: null, error: error.message }))
+    })
 
-        }).catch(() => { })
-    }, [])
+    const reload = (): void => setState(old => ({ isLoading: false, surveyResult: null, error: '', reload: !old.reload }))
+
+    useEffect(() => {
+        loadSurveyResult.load().then(surveyResult => setState(old => ({ ...old, surveyResult }))).catch(handleError)
+    }, [state.reload])
 
     return (
         <div className={Styles.surveyResultWrapper}>
@@ -46,7 +52,7 @@ export const SurveyResult: React.FC<Props> = ({ loadSurveyResult }: Props) => {
                 }
 
                 {state.isLoading && <Loading />}
-                {state.error && <Error error={state.error} reload={() => { }} />}
+                {state.error && <Error error={state.error} reload={reload} />}
             </div>
             <Footer />
         </div>
