@@ -1,16 +1,27 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Footer, LoggedInHeader } from '@/presentation/components/layout'
 import { Calendar, Loading } from '@/presentation/components/utils'
 import Styles from './surveyResult.styles.scss'
 import { ILoadSurveyResult } from '@/domain/useCases'
 import { Error } from '@/presentation/components/utils'
 
-export const SurveyResult: React.FC = () => {
+type Props = {
+    loadSurveyResult: ILoadSurveyResult
+}
+
+export const SurveyResult: React.FC<Props> = ({ loadSurveyResult }: Props) => {
     const [state] = useState({
         isLoading: false,
         error: '',
         surveyResult: null as ILoadSurveyResult.Model
     })
+
+    useEffect(() => {
+        loadSurveyResult.load().then(() => {
+
+        }).catch(() => { })
+    },[])
+
     return (
         <div className={Styles.surveyResultWrapper}>
             <LoggedInHeader />
