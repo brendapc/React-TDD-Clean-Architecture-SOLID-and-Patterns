@@ -5,6 +5,7 @@ import Styles from './surveyResult.styles.scss'
 import { ILoadSurveyResult } from '@/domain/useCases'
 import { Error } from '@/presentation/components/utils'
 import { useErrorHandler } from '@/presentation/hooks'
+import { useHistory } from 'react-router'
 
 type Props = {
     loadSurveyResult: ILoadSurveyResult
@@ -28,6 +29,7 @@ export const SurveyResult: React.FC<Props> = ({ loadSurveyResult }: Props) => {
         loadSurveyResult.load().then(surveyResult => setState(old => ({ ...old, surveyResult }))).catch(handleError)
     }, [state.reload])
 
+    const { goBack } = useHistory()
     return (
         <div className={Styles.surveyResultWrapper}>
             <LoggedInHeader />
@@ -47,7 +49,7 @@ export const SurveyResult: React.FC<Props> = ({ loadSurveyResult }: Props) => {
                                 </li>
                             )}
                         </ul>
-                        <button>Voltar</button>
+                        <button onClick={goBack}>Voltar</button>
                     </>
                 }
 
