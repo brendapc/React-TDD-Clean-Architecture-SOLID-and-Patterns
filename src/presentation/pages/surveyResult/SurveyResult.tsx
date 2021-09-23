@@ -20,7 +20,7 @@ export const SurveyResult: React.FC<Props> = ({ loadSurveyResult }: Props) => {
         loadSurveyResult.load().then(() => {
 
         }).catch(() => { })
-    },[])
+    }, [])
 
     return (
         <div className={Styles.surveyResultWrapper}>
@@ -30,24 +30,16 @@ export const SurveyResult: React.FC<Props> = ({ loadSurveyResult }: Props) => {
                     <>
                         <hgroup>
                             <Calendar date={new Date()} className={Styles.calendarWrapper} />
-                            <h2>Qual é seu framework web favorito</h2>
+                            <h2>{state.surveyResult.question}</h2>
                         </hgroup>
                         <ul>
-                            <li>
-                                <img src="https://styles.redditmedia.com/t5_2su6s/styles/communityIcon_4g1uo0kd87c61.png?width=256&s=3f7493995143d3cf40b1fedc582607cea194b579" alt="" />
-                                <span className={Styles.answer} > React JS</span>
-                                <span className={Styles.percent} > 50%</span>
-                            </li>
-                            <li className={Styles.active}>
-                                <img src="https://styles.redditmedia.com/t5_2su6s/styles/communityIcon_4g1uo0kd87c61.png?width=256&s=3f7493995143d3cf40b1fedc582607cea194b579" alt="" />
-                                <span className={Styles.answer} > React JS</span>
-                                <span className={Styles.percent} > 50%</span>
-                            </li>
-                            <li>
-                                <img src="https://styles.redditmedia.com/t5_2su6s/styles/communityIcon_4g1uo0kd87c61.png?width=256&s=3f7493995143d3cf40b1fedc582607cea194b579" alt="" />
-                                <span className={Styles.answer} > React JS</span>
-                                <span className={Styles.percent} > 50%</span>
-                            </li>
+                            {state.surveyResult.answers.map((answer) =>
+                                <li key={answer.answer} className={answer.isCurrentAccountAnswer ? Styles.active : ''}>
+                                    {answer.image && <img src={answer.image} alt={answer.answer} />}
+                                    <span className={Styles.answer}> {answer.answer}</span>
+                                    <span className={Styles.percent}> {answer.percent}%</span>
+                                </li>
+                            )}
                         </ul>
                         <button>Voltar</button>
                     </>
@@ -55,7 +47,6 @@ export const SurveyResult: React.FC<Props> = ({ loadSurveyResult }: Props) => {
 
                 {state.isLoading && <Loading />}
                 {state.error && <Error error={state.error} reload={() => { }} />}
-
             </div>
             <Footer />
         </div>
