@@ -1,14 +1,21 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Footer, LoggedInHeader } from '@/presentation/components/layout'
 import { Calendar, Loading } from '@/presentation/components/utils'
 import Styles from './surveyResult.styles.scss'
+import { ILoadSurveyResult } from '@/domain/useCases'
+import { Error } from '@/presentation/components/utils'
 
 export const SurveyResult: React.FC = () => {
+    const [state] = useState({
+        isLoading: false,
+        error: '',
+        surveyResult: null as ILoadSurveyResult.Model
+    })
     return (
         <div className={Styles.surveyResultWrapper}>
             <LoggedInHeader />
-            <div className={Styles.contentWrapper}>
-                {true &&
+            <div data-testid="survey-result" className={Styles.contentWrapper}>
+                {state.surveyResult &&
                     <>
                         <hgroup>
                             <Calendar date={new Date()} className={Styles.calendarWrapper} />
@@ -35,7 +42,9 @@ export const SurveyResult: React.FC = () => {
                     </>
                 }
 
-                {false && <Loading />}
+                {state.isLoading && <Loading />}
+                {state.error && <Error error={state.error} reload={() => { }} />}
+
             </div>
             <Footer />
         </div>
