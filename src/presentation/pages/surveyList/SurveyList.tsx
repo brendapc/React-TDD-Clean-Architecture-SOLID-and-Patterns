@@ -4,7 +4,6 @@ import { useErrorHandler } from '@/presentation/hooks/'
 import { Footer, LoggedInHeader } from '@/presentation/components/layout'
 import { Error } from '@/presentation/components/utils'
 import { ListSurveys } from './components'
-import SurveyContext from './context/SurveyContext'
 import Styles from './surveyList.styles.scss'
 
 type Props = {
@@ -41,12 +40,10 @@ export const SurveyList: React.FC<Props> = ({ loadSurveyList }: Props) => {
       <LoggedInHeader />
       <div className={Styles.contentWrapper}>
         <h2>Enquetes</h2>
-        <SurveyContext.Provider value={{ state, setState }}>
-          {state.error
-            ? <Error error={state.error} reload={handleReload} />
-            : (<ListSurveys />)
-          }
-        </SurveyContext.Provider>
+        {state.error
+          ? <Error error={state.error} reload={handleReload} />
+          : (<ListSurveys surveys={state.surveys} />)
+        }
       </div>
       <Footer />
     </div>

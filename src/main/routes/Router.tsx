@@ -1,13 +1,10 @@
 import React from 'react'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
-import { SurveyList } from '@/presentation/pages/surveyList/SurveyList'
-import { makeLoginPage } from '@/main/factories/pages/login/loginPageFactory'
-import { makeSignupPage } from '@/main/factories/pages/signup/signupPageFactory'
-
-import { ApiContext } from '@/presentation/contexts'
+import { makeLoginPage, makeSignupPage, makeSurveyList } from '@/main/factories/pages'
 import { getCurrentAccountAdapter, setCurrentAccountAdapter } from '@/main/adapters/currentAccountAdapter'
 import { PrivateRoute } from '@/presentation/components/privateRoutes/PrivateRoute'
-import { makeSurveyList } from '../factories/pages'
+import { ApiContext } from '@/presentation/contexts'
+import { SurveyResult } from '@/presentation/pages'
 
 export const Router: React.FC = () => {
   return (
@@ -15,13 +12,14 @@ export const Router: React.FC = () => {
       setCurrentAccount: setCurrentAccountAdapter,
       getCurrentAccount: getCurrentAccountAdapter
     }}>
-    <BrowserRouter>
-      <Switch>
-        <Route path="/login" exact component={makeLoginPage} />
-        <Route path="/signup" exact component={makeSignupPage} />
-        <PrivateRoute path="/" exact component={makeSurveyList} />
-      </Switch>
-    </BrowserRouter>
+      <BrowserRouter>
+        <Switch>
+          <Route path="/login" exact component={makeLoginPage} />
+          <Route path="/signup" exact component={makeSignupPage} />
+          <PrivateRoute path="/" exact component={makeSurveyList} />
+          <PrivateRoute path="/surveyresult" exact component={SurveyResult} />
+        </Switch>
+      </BrowserRouter>
     </ApiContext.Provider>
 
   )
